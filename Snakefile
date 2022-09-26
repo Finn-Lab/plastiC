@@ -6,8 +6,8 @@ import os
 configfile: "config.yaml"
 
 ASSEMBLYDIR = config["assemblydir"]
-BINDIR = config["assemblytype"]
-ASSEMBLYTYPE = config["type"]
+BINDIR = config["bindir"]
+ASSEMBLYTYPE = config["assemblytype"]
 OUTPUTDIR = config["outputdir"]
 
 
@@ -30,13 +30,21 @@ for sample in SAMPLENAMES:
 if not os.path.exists(OUTPUTDIR+"/summary/logs"):
     os.makedirs(OUTPUTDIR+"/summary/logs")
 
+
+rule all:
+    input:
+        tiaraplastids = expand(OUTPUTDIR+"{samplename}/tiara/tiara_out.txt", samplename = SAMPLENAMES)
+
 # tiara classification
 rule tiara:
     input:
-        ASSEMBLYDIR+"{samplename}/"+ASSEMBLYTYPE+".fasta"
+        seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYTYPE+".fasta"
+    #params:
+    	#tiaraoutdir = directory(OUTPUTDIR+"{samplename}/tiara")
     output:
-        OUTPUTDIR+"{samplename}/tiara_output"
-    env:
-        "envs/plastcovery.yaml"
+        tiaraout = OUTPUTDIR+"{samplename}/tiara/tiara_out.txt"
+        #tiaraplastids = OUTPUTDIR+"{samplename}/tiara/out.txt"
+    conda:
+        "envs/tiara.yaml"
     shell:
-        "bash scripts/tiara_classifier.sh -i {input} -o {output}"
+        "bash scripts/tiara_classifier.sh -i {input.seqs} -o {output.tiaraout}"

@@ -1,7 +1,7 @@
 # Sample identifiers
 # Path to directory containing metagenomic assemblies
 assemblydir:
-    "/nfs/research/rdf/escameron/lichen/lichen/results/binning/unbinned/private/"
+    "/nfs/research/rdf/escameron/lichen/lichen/results/assembly/spades/private/"
 
 # Specify assembly type: contigs or scaffolds
 assemblytype:
@@ -9,7 +9,7 @@ assemblytype:
 
 # Path to directory containing binning results
 bindir:
-    "/nfs/research/rdf/escameron/lichen/lichen/results/binning/unbinned/private/"
+    "/nfs/research/rdf/escameron/lichen/lichen/results/binning/private/unbinned/"
 
 # Path to directory to contain output results
 outputdir:

@@ -2,6 +2,7 @@ name: plastcovery
 channels:
   - bioconda
 dependencies:
+  - pip
   - drep
   - pip:
     - tiara

@@ -8,15 +8,16 @@ Machine learning classification of contigs using Tiara (https://github.com/ibe-u
 OPTIONS:
       -i  Contig file [REQUIRED]
       -o Output directory [REQUIRED]
-
+	  #-p Plastid file [REQUIRED]
 EOF
 }
 
 #variables
 contigs=
 outdir=
+#plastids=
 
-while getopts "i:o:h:" OPTION
+while getopts "i:o:p:h:" OPTION
 
 do
 
@@ -27,6 +28,9 @@ do
     o)
       outdir=${OPTARG}
       ;;
+    #p)
+      #plastids=${OPTARG}
+      #;;
     h)
       usage
       exit
@@ -39,4 +43,6 @@ do
 
 done
 
-tiara -i ${contigs} -o ${outdir}/tiara_out.txt -m 1000 --tf all -t 4 -p 0.65 0.60 --probabilities
+tiara -i ${contigs} -o ${outdir} -m 1000 --tf all -t 4 -p 0.65 0.60 --probabilities
+
+#echo "Plastid classified sequences have been stored in ${plastids}."
