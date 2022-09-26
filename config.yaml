@@ -1,0 +1,8 @@
+# Sample identifiers
+# Path to directory containing metagenomic assemblies
+inputdir:
+    "/nfs/research/rdf/escameron/lichen/lichen/results/binning/unbinned/private"
+
+# Path to directory to contain output results
+outputdir:
+    "/hps/research/finn/escameron/projects/plastcovery_testing"

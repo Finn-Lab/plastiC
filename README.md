@@ -1,2 +1,2 @@
 # plastcovery
-Workflow for recovery of plastids from metagenomic samples
+Workflow for recovery and quality estimation of plastid genomes from metagenomic samples
