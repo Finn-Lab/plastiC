@@ -2,7 +2,6 @@ name: plastcovery
 channels:
   - bioconda
 dependencies:
-  - metabat2
   - drep
   - pip:
     - tiara

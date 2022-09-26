@@ -1,16 +1,18 @@
-# snakemake workflow to evaluate algal chloroplast genome recovery
+# snakemake workflow to recover and estimate quality of plastids recovered from metagenomic samples
 
 import os
 
 # file locations
 configfile: "config.yaml"
 
-INPUTDIR = config["inputdir"]
+ASSEMBLYDIR = config["assemblydir"]
+BINDIR = config["assemblytype"]
+ASSEMBLYTYPE = config["type"]
 OUTPUTDIR = config["outputdir"]
-SEED = config["seed_db"]
+
 
 def getsample_names(dir):
-    filelist = os.listdir(config["inputdir"])
+    filelist = os.listdir(config["assemblydir"])
     samplenames = []
 
     for file in filelist:
@@ -19,88 +21,22 @@ def getsample_names(dir):
 
     return samplenames
 
-SAMPLENAMES = getsample_names(config["inputdir"])
+SAMPLENAMES = getsample_names(config["assemblydir"])
 
-rule all:
-    input:
-        assemblydir = expand(OUTPUTDIR+"{samplename}/{samplename}_chloromap_coverage.tsv", samplename = SAMPLENAMES)
+for sample in SAMPLENAMES:
+    if not os.path.exists(OUTPUTDIR+sample+"/logs"):
+        os.makedirs(OUTPUTDIR+sample+"/logs")
 
-# subsample reference chloroplast genomes
-rule chlorochop:
+if not os.path.exists(OUTPUTDIR+"/summary/logs"):
+    os.makedirs(OUTPUTDIR+"/summary/logs")
+
+# tiara classification
+rule tiara:
     input:
-        INPUTDIR+"{samplename}.fasta"
+        ASSEMBLYDIR+"{samplename}/"+ASSEMBLYTYPE+".fasta"
     output:
-        fwd = OUTPUTDIR+"{samplename}/forward_reads.fasta",
-        rvr = OUTPUTDIR+"{samplename}/reverse_reads.fasta"
+        OUTPUTDIR+"{samplename}/tiara_output"
+    env:
+        "envs/plastcovery.yaml"
     shell:
-        "python3 scripts/chlorochop.py {input} {output.fwd} {output.rvr}"
-
-# reformat fasta files into fastq files
-rule fastq_gen:
-    input:
-        fwd = OUTPUTDIR+"{samplename}/forward_reads.fasta",
-        rvr = OUTPUTDIR+"{samplename}/reverse_reads.fasta"
-    output:
-        fwd_fastq = OUTPUTDIR+"{samplename}/forward_reads.fastq",
-        rvr_fastq = OUTPUTDIR+"{samplename}/reverse_reads.fastq"
-    conda:
-        "envs/getorganelle_env.yml"
-    shell:
-        "reformat.sh in={input.fwd} in2={input.rvr} out={output.fwd_fastq} out2={output.rvr_fastq}"
-
-# get_organelle chloroplast assembly
-rule get_organs:
-    input:
-        fwd_fastq = OUTPUTDIR+"{samplename}/forward_reads.fastq",
-        rvr_fastq = OUTPUTDIR+"{samplename}/reverse_reads.fastq",
-    output:
-        assemblydir = directory(OUTPUTDIR+"{samplename}/"+SEED)
-    conda:
-        "envs/getorganelle_env.yml"
-    shell:
-        "get_organelle_from_reads.py -1 {input.fwd_fastq} -2 {input.rvr_fastq} -t 1 -o {output.assemblydir} -F other_pt -R 10"
-
-# map re-assembled genome to original reference fasta
-rule chloromap:
-    input:
-        assemblydir = directory(OUTPUTDIR+"{samplename}/"+SEED),
-        reference_chloro = INPUTDIR+"{samplename}.fasta"
-    output:
-        chloromap_sam = OUTPUTDIR+"{samplename}/{samplename}_chloromap.sam"
-    conda:
-        "envs/mapping_env.yml"
-    shell:
-        "minimap2 -a {input.reference_chloro} {input.reassembled_chloro} > {output.chloromap_sam}
-
-# convert sam to bam
-rule sam2bam:
-    input:
-        chloromap_sam = OUTPUTDIR+"{samplename}/{samplename}_chloromap.sam"
-    output:
-        chloromap_bam = OUTPUTDIR+"{samplename}/{samplename}_chloromap.bam"
-    conda:
-        "envs/mapping_env.yml"
-    shell:
-        "samtools view -o {output.chloromap_bam} -bS {input.chloromap_sam}"
-
-# sort bam
-rule sorted_bam:
-    input:
-        chloromap_bam = OUTPUTDIR+"{samplename}/{samplename}_chloromap.bam"
-    output:
-        chloromap_sorted = OUTPUTDIR+"{samplename}/{samplename}_chloromap_sorted.bam"
-    conda:
-        "envs/mapping_env.yml"
-    shell:
-        "samtools sort {input.chloromap_bam} -o {output.chloromap_sorted}"
-
-# generate coverage of re-assembly
-rule get_coverage:
-    input:
-        chloromap_sorted = OUTPUTDIR+"{samplename}/{samplename}_chloromap_sorted.bam"
-    output:
-        chloromap_coverage = OUTPUTDIR+"{samplename}/{samplename}_chloromap_coverage.tsv"
-    conda:
-        "envs/mapping_env.yml"
-    shell:
-        "samtools coverage -o {output.chloromap_coverage} {input.chloromap_sorted}"
+        "bash scripts/tiara_classifier.sh -i {input} -o {output}"
