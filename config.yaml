@@ -3,6 +3,8 @@
 assemblydir:
     "/nfs/research/rdf/escameron/lichen/lichen/results/assembly/spades/private/"
 
+readsdir:
+    "/nfs/research/rdf/escameron/lichen/lichen/results/reads/qc/private"
 # Specify assembly type: contigs or scaffolds
 assemblytype:
   "scaffolds"
