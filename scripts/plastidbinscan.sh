@@ -18,7 +18,7 @@ tiaradir=
 binningdir=
 plastidbindir=
 
-while getopts "i:b:h:" OPTION
+while getopts "i:b:o:h:" OPTION
 
 do
 
@@ -31,6 +31,7 @@ do
       ;;
     o)
       plastidbindir=${OPTARG}
+      ;;
     h)
       usage
       exit
@@ -44,6 +45,8 @@ do
 done
 
 mkdir -p ${plastidbindir}
+
+touch ${tiaradir}
 
 grep ">" ${tiaradir} >> ${plastidbindir}/plastidseqid.txt
 plastidseqlist=${plastidbindir}/plastidseqid.txt

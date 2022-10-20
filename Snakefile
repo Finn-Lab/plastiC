@@ -65,15 +65,17 @@ rule metabat_binning:
         seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYTYPE+".fasta",
     	jgidepth = OUTPUTDIR+"{samplename}/binning/metabat_depth.txt"
     output:
-        bin_prefix = OUTPUTDIR+"{samplename}/binning/bins/bin"
+        bin_prefix = OUTPUTDIR+"{samplename}/binning/bins/bin",
+        unbinned_seqs_holder = OUTPUTDIR+"{samplename}/binning/bins/bin.unbinned.fa"
     conda:
         "envs/binner.yml"
     shell:
-        "metabat2 -i {input.seqs} -a {input.jgidepth} -o {output.bindir} -s 50000 --unbinned"
+        "metabat2 -i {input.seqs} -a {input.jgidepth} -o {output.bin_prefix} -s 50000 --unbinned"
 
 rule plastid_bin_scan:
     input:
-        plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta"
+        plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta",
+        unbinned_seqs_holder = OUTPUTDIR+"{samplename}/binning/bins/bin.unbinned.fa"
     params:
         bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
         plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
