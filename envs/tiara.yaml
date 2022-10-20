@@ -1,0 +1,5 @@
+name: tiara
+
+dependencies:
+  - pip:
+     - tiara

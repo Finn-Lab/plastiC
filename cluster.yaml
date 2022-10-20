@@ -1,0 +1,5 @@
+__default__:
+    mem: 8000
+    nCPU: 1
+    name: "{rule}"
+    output: "{OUTPUT_DIR}/{samplename}/logs/{rule}.log"

@@ -1,0 +1,13 @@
+name: tiara
+channels:
+  - conda-forge
+  - bioconda
+  - ursky
+  - defaults
+  - anaconda
+dependencies:
+  - python=3.8
+  - seqtk
+  - ca-certificates
+  - openssl
+prefix: /hps/software/users/rdf/metagenomics/research-team/escameron/miniconda3/envs/tiara
