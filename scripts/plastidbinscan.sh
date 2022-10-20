@@ -14,7 +14,7 @@ EOF
 
 #variables
 tiaradir=
-bindir=
+binningdir=
 
 
 while getopts "i:b:h:" OPTION
@@ -26,7 +26,7 @@ do
       tiaradir=${OPTARG}
       ;;
     b)
-      bindir=${OPTARG}
+      binningdir=${OPTARG}
       ;;
     h)
       usage
@@ -47,7 +47,7 @@ for CONTIG in `cat $plastidseqlist`
 
 do
 
-  grep ${CONTIG} ${bindir}/* >> plastid_binning.tsv
+  grep ${CONTIG} ${binningdir}/* >> plastid_binning.tsv
 
 done
 

@@ -62,6 +62,19 @@ rule reads2assembly:
     shell:
         "bash scripts/readmap2assembly.sh -1 {input.forwardreads} -2 {input.reversereads} -a {input.seqs} -o {output.bamout}"
 
+# plastid binning
+rule plastid_binning:
+    input:
+        seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYTYPE+".fasta",
+        bamout = OUTPUTDIR+"{samplename}/mapping/reads2assembly/alignment.bam",
+        bindir = directory(OUTPUTDIR+"{samplename}/binning"),
+        tiaraoutdir = directory(OUTPUTDIR+"{samplename}/tiara")
+    output:
+        plastidbins_list = OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv"
+    conda:
+        "envs/binner.yml"
+    shell:
+        "bash scripts/plastidbinner.sh -a {input.seqs} -m {input.bamout} -b {input.bindir} -t {input.tiaraoutdir}"
 # binning
 #rule metabat_bin:
 #    input:

@@ -8,6 +8,7 @@ Bin metagenomic assemblies using metabat and a reduced bin size threshold to acc
 OPTIONS:
       -i  Input metagenomic assembly, either contigs.fasta or scaffolds.fasta [REQUIRED]
       -m Mapped reads alignment bam [REQUIRED]
+      -o Output directory for binning[REQUIRED]
 
 EOF
 }
@@ -15,8 +16,9 @@ EOF
 #variables
 assembly=
 mappedreads=
+binningdir=
 
-while getopts "i:m:h:" OPTION
+while getopts "i:m:o:h:" OPTION
 
 do
 
@@ -24,8 +26,11 @@ do
     i)
       assembly=${OPTARG}
       ;;
-    b)
+    m)
       mappedreads=${OPTARG}
+      ;;
+    o)
+      binningdir=${OPTARG}
       ;;
     h)
       usage
@@ -39,4 +44,6 @@ do
 
 done
 
-runMetaBat.sh --unbinned -s 50000 ${mappedreads} ${ALIGNMENT.bam}
+jgi_summarize_bam_contig_depths --outputDepth ${binningdir}/metabat_depth.txt ${mappedreads}
+
+metabat2 -i ${assembly} -a ${binningdir}/metabat_depth.txt -o ${binningdir}/bin -s 50000 --unbinned
