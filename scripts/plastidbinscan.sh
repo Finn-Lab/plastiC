@@ -45,7 +45,7 @@ done
 
 mkdir -p ${plastidbindir}
 
-grep ">" ${tiaradir}/plastid_scaffolds.fasta >> ${plastidbindir}/plastidseqid.txt
+grep ">" ${tiaradir} >> ${plastidbindir}/plastidseqid.txt
 plastidseqlist=${plastidbindir}/plastidseqid.txt
 
 for CONTIG in `cat $plastidseqlist`

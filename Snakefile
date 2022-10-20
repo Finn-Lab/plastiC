@@ -60,20 +60,35 @@ rule jgi_depth:
 	shell:
 		"jgi_summarize_bam_contig_depths --outputDepth {output.jgidepth} {input.bamout}"
 
-# plastid binning
-rule plastid_binning:
+rule metabat_binning:
     input:
         seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYTYPE+".fasta",
-        bamout = OUTPUTDIR+"{samplename}/mapping/reads2assembly/alignment.bam",
-        jgidepth = OUTPUTDIR+"{samplename}/binning/metabat_depth.txt"
-
-    params:
-        bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
-        tiaraoutdir = directory(OUTPUTDIR+"{samplename}/tiara"),
-        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
+    	jgidepth = OUTPUTDIR+"{samplename}/binning/metabat_depth.txt"
     output:
-        plastidbins = OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv"
+        bin_prefix = OUTPUTDIR+"{samplename}/binning/bins/bin"
     conda:
         "envs/binner.yml"
     shell:
-        "bash scripts/plastidbinner.sh -a {input.seqs} -m {input.bamout} -b {params.bindir} -t {params.tiaraoutdir} -p {params.plastidbindir}"
+        "metabat2 -i {input.seqs} -a {input.jgidepth} -o {output.bindir} -s 50000 --unbinned"
+
+rule plastid_bin_scan:
+    input:
+        plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta"
+    params:
+        bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
+        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
+    output:
+        plastidbinset = OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv"
+    shell:
+        "bash scripts/plastidbinscan.sh -i {input.plastid_seqs} -b {params.bindir} -o {params.plastidbindir}"
+#
+#    params:
+#        bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
+#        tiaraoutdir = directory(OUTPUTDIR+"{samplename}/tiara"),
+#        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
+#    output:
+#        plastidbins = OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv"
+#    conda:
+#        "envs/binner.yml"
+#    shell:
+#        "bash scripts/plastidbinner.sh -a {input.seqs} -m {input.bamout} -b {params.bindir} -t {params.tiaraoutdir} -p {params.plastidbindir}"
