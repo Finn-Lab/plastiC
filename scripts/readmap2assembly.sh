@@ -35,6 +35,7 @@ do
       ;;
     o)
       bamoutput=${OPTARG}
+      ;;
     h)
       usage
       exit
