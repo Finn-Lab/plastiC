@@ -10,7 +10,7 @@ OPTIONS:
       -m Mapping file
       -b Binning directory
       -t Tiara output directory
-
+	  -p Plastidbin directory
 EOF
 }
 
@@ -19,6 +19,7 @@ assembly=
 mappedreads=
 binningdir=
 tiaradir=
+plastidbindir=
 
 while getopts "a:m:b:t:h:" OPTION
 
@@ -37,6 +38,9 @@ do
     t)
       tiaradir=${OPTARG}
       ;;
+	p)
+	  plastidbindir=${OPTARG}
+	  ;;
     h)
       usage
       exit
@@ -49,6 +53,6 @@ do
 
 done
 
-bash metabat_binning.sh -i ${assembly} -m ${mappedreads} -o ${binningdir}
+bash scripts/metabat_binning.sh -i ${assembly} -m ${mappedreads} -o ${binningdir}
 
-bash plastidbinscan.sh -i ${tiaradir} -b ${binningdir}/bin 
+bash scripts/plastidbinscan.sh -i ${tiaradir} -b ${binningdir} -o ${plastidbindir}

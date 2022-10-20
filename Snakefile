@@ -33,21 +33,8 @@ if not os.path.exists(OUTPUTDIR+"/summary/logs"):
 
 rule all:
     input:
-        readmaps = expand(OUTPUTDIR+"{samplename}/mapping/reads2assembly/alignment.bam", samplename = SAMPLENAMES)
-
-# tiara classification
-#rule tiara:
-    #input:
-        #seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYTYPE+".fasta"
-    #params:
-    	#tiaraoutdir = directory(OUTPUTDIR+"{samplename}/tiara")
-    #output:
-        #tiaraout = OUTPUTDIR+"{samplename}/tiara/tiara_out.txt"
-        #tiaraplastids = OUTPUTDIR+"{samplename}/tiara/out.txt"
-    #conda:
-        #"envs/tiara.yaml"
-    #shell:
-        #"bash scripts/tiara_classifier.sh -i {input.seqs} -o {output.tiaraout}"
+    	expand(OUTPUTDIR+"{samplename}/binning/metabat_depth.txt", samplename = SAMPLENAMES),
+    	expand(OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv", samplename = SAMPLENAMES)
 
 # generate bam file (reads 2 assembly)
 rule reads2assembly:
@@ -62,48 +49,31 @@ rule reads2assembly:
     shell:
         "bash scripts/readmap2assembly.sh -1 {input.forwardreads} -2 {input.reversereads} -a {input.seqs} -o {output.bamout}"
 
+# generate depth file
+rule jgi_depth:
+	input:
+		bamout = OUTPUTDIR+"{samplename}/mapping/reads2assembly/alignment.bam"
+	output:
+		jgidepth = OUTPUTDIR+"{samplename}/binning/metabat_depth.txt"
+	conda:
+		"envs/binner.yml"
+	shell:
+		"jgi_summarize_bam_contig_depths --outputDepth {output.jgidepth} {input.bamout}"
+
 # plastid binning
 rule plastid_binning:
     input:
         seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYTYPE+".fasta",
         bamout = OUTPUTDIR+"{samplename}/mapping/reads2assembly/alignment.bam",
-        bindir = directory(OUTPUTDIR+"{samplename}/binning"),
-        tiaraoutdir = directory(OUTPUTDIR+"{samplename}/tiara")
+        jgidepth = OUTPUTDIR+"{samplename}/binning/metabat_depth.txt"
+
+    params:
+        bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
+        tiaraoutdir = directory(OUTPUTDIR+"{samplename}/tiara"),
+        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
     output:
-        plastidbins_list = OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv"
+        plastidbins = OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv"
     conda:
         "envs/binner.yml"
     shell:
-        "bash scripts/plastidbinner.sh -a {input.seqs} -m {input.bamout} -b {input.bindir} -t {input.tiaraoutdir}"
-# binning
-#rule metabat_bin:
-#    input:
-#        seqs = ASSEMBLYDIR+"{samplename}/spades_output"+ASSEMBLYTYPE+".fasta"
-#        bam = OUTPUTDIR+"{samplename}/mapping/reads2assembly/alignment.bam"
-#    conda:
-#        "envs/binner.yml"
-#    shell:
-#        "runMetaBat.sh --unbinned -s 50000 {input.seqs} {input.bam}"
-#
-# identify plastid containing bins
-#rule find_plastid_bin:
-#    input:
-#        tiaraout = OUTPUTDIR+"{samplename}/tiara
-#        bindir = OUTPUTDIR+
-#    shell:
-#        "bash scripts/plastidbinscan.sh -i {input.tiaraout} -b {input.bindir}"
-
-# filter plastid bins
-#rule qc_filter_plastid_bins:
-#    input:
-#    shell:
-#        "bash scripts/plastidbinstats.sh "
-
-# MAG quality estimation
-#rule mag_quality_estimate:
-
-# dereplicate HQ MAGs
-#rule dereplicate:
-
-# source classification dereplicated genomes
-#rule tax_classify:
+        "bash scripts/plastidbinner.sh -a {input.seqs} -m {input.bamout} -b {params.bindir} -t {params.tiaraoutdir} -p {params.plastidbindir}"
