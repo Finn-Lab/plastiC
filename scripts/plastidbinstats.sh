@@ -68,8 +68,8 @@ do
 
   echo -e "${bin}\t${totalcontig}\t${binsize}\t${plastidcount}\t${plastidlength}\t${plastidpercent}\t${plastid_length_percent}" >> ${plastidbindir}/bin_stats.tsv
 
-  if ${plastid_length_percent} > ${minbinsize}
-    mv ${BIN} ${plastidbindir}/bins/
+  if [ ${plastid_length_percent} -gt ${minbinsize} ] ; then
+    cp ${BIN} ${plastidbindir}/bins/
   fi
-  
+
 done

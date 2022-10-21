@@ -3,7 +3,7 @@ usage()
 cat << EOF
 usage: $0 options
 
-Bin assemblies using metabat2 and identify potential plastid bins.
+Scan bins for plastid sequences and select bins composed of mostly plastids.
 
 OPTIONS:
       -a Assembly file
@@ -16,24 +16,16 @@ EOF
 }
 
 #variables
-assembly=
-mappedreads=
 binningdir=
 tiaradir=
 plastidbindir=
 minbinsize=
 
-while getopts "a:m:b:t:p:s:h:" OPTION
+while getopts "a:b:t:p:s:h:" OPTION
 
 do
 
   case ${OPTION} in
-    a)
-      assembly=${OPTARG}
-      ;;
-    m)
-      mappedreads=${OPTARG}
-      ;;
     b)
       binningdir=${OPTARG}
       ;;

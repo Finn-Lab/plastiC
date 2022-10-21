@@ -37,7 +37,7 @@ if not os.path.exists(OUTPUTDIR+"/summary/logs"):
 rule all:
     input:
     	expand(OUTPUTDIR+"{samplename}/binning/metabat_depth.txt", samplename = SAMPLENAMES),
-    	expand(OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv", samplename = SAMPLENAMES)
+    	expand(OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv", samplename = SAMPLENAMES)
 
 # generate bam file (reads 2 assembly)
 rule reads2assembly:
@@ -77,19 +77,29 @@ rule metabat_binning:
     shell:
         "metabat2 -i {input.seqs} -a {input.jgidepth} -o {params.bin_prefix} -s 50000 --unbinned > {output.metabat2_log}"
 
-rule plastid_bin_scan:
+#rule plastid_bin_scan:
+#    input:
+#        plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta",
+#        #unbinned_seqs_holder = OUTPUTDIR+"{samplename}/binning/bins/bin.unbinned.fa",
+#        metabat2_log = OUTPUTDIR+"{samplename}/binning/metabat2.log"
+#    params:
+#        bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
+#        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
+#    output:
+#        plastidbinset = OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv"
+#    shell:
+#        "bash scripts/plastidbinscan.sh -i {input.plastid_seqs} -b {params.bindir} -o {params.plastidbindir}"
+
+rule fetch_plastid_bins:
     input:
-        plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta",
-        #unbinned_seqs_holder = OUTPUTDIR+"{samplename}/binning/bins/bin.unbinned.fa",
-        metabat2_log = OUTPUTDIR+"{samplename}/binning/metabat2.log"
+        plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta"
     params:
         bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
         plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
     output:
-        plastidbinset = OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv"
+        plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv"
     shell:
-        "bash scripts/plastidbinscan.sh -i {input.plastid_seqs} -b {params.bindir} -o {params.plastidbindir}"
-
+        "bash scripts/plastidbinner.sh -b {params.bindir} -t {input.plastid_seqs} -p {params.plastidbindir} -s MINPLASTIDCONTENT"
 #rule quality_estimate:
 #    input:
 #
@@ -117,17 +127,17 @@ rule plastid_bin_scan:
 #        "envs/hmmer.yml"
 #    shell:
 
-rule plastid_source_classification:
-    input:
-        plastidbins =
-    params:
-        cat_outputdir = directory(OUTPUTDIR+"{samplename}/CAT_classification")
-    output:
-        plastid_source_prediction = OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.tx"
-    conda:
-        "envs/CAT_classifier.yml"
-    shell:
-        "bash scripts/source_classifier.sh -i {input.plastidbins} -d CATDBDIR -t CATTAXDIR -o {params.cat_outputdir}"
+#rule plastid_source_classification:
+#    input:
+#        plastidbins =
+#    params:
+#        cat_outputdir = directory(OUTPUTDIR+"{samplename}/CAT_classification")
+#    output:
+#        plastid_source_prediction = OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.tx"
+#    conda:
+#        "envs/CAT_classifier.yml"
+#    shell:
+#        "bash scripts/source_classifier.sh -i {input.plastidbins} -d CATDBDIR -t CATTAXDIR -o {params.cat_outputdir}"
 
 #
 #    params:
