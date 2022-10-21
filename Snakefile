@@ -6,7 +6,7 @@ import os
 configfile: "config.yaml"
 
 ASSEMBLYDIR = config["assemblydir"]
-BINDIR = config["bindir"]
+#BINDIR = config["bindir"]
 ASSEMBLYTYPE = config["assemblytype"]
 OUTPUTDIR = config["outputdir"]
 READDIR = config["readdir"]
@@ -41,7 +41,7 @@ rule reads2assembly:
     input:
         forwardreads = READDIR+"{samplename}/{samplename}_1.fastq.gz",
         reversereads = READDIR+"{samplename}/{samplename}_2.fastq.gz",
-        seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYTYPE+".fasta"
+        seqs = ASSEMBLYDIR+"{samplename}/"+ASSEMBLYTYPE+".fasta"
     output:
         bamout = OUTPUTDIR+"{samplename}/mapping/reads2assembly/alignment.bam"
     conda:
@@ -62,20 +62,23 @@ rule jgi_depth:
 
 rule metabat_binning:
     input:
-        seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYTYPE+".fasta",
+        seqs = ASSEMBLYDIR+"{samplename}/"+ASSEMBLYTYPE+".fasta",
     	jgidepth = OUTPUTDIR+"{samplename}/binning/metabat_depth.txt"
+    params:
+    	bin_prefix = OUTPUTDIR+"{samplename}/binning/bins/bin"
     output:
-        bin_prefix = OUTPUTDIR+"{samplename}/binning/bins/bin",
-        unbinned_seqs_holder = OUTPUTDIR+"{samplename}/binning/bins/bin.unbinned.fa"
+        #unbinned_seqs_holder = OUTPUTDIR+"{samplename}/binning/bins/bin.unbinned.fa",
+        metabat2_log = OUTPUTDIR+"{samplename}/binning/metabat2.log"
     conda:
         "envs/binner.yml"
     shell:
-        "metabat2 -i {input.seqs} -a {input.jgidepth} -o {output.bin_prefix} -s 50000 --unbinned"
+        "metabat2 -i {input.seqs} -a {input.jgidepth} -o {params.bin_prefix} -s 50000 --unbinned > {output.metabat2_log}"
 
 rule plastid_bin_scan:
     input:
         plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta",
-        unbinned_seqs_holder = OUTPUTDIR+"{samplename}/binning/bins/bin.unbinned.fa"
+        #unbinned_seqs_holder = OUTPUTDIR+"{samplename}/binning/bins/bin.unbinned.fa",
+        metabat2_log = OUTPUTDIR+"{samplename}/binning/metabat2.log"
     params:
         bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
         plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
