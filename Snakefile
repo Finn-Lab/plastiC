@@ -10,6 +10,8 @@ ASSEMBLYDIR = config["assemblydir"]
 ASSEMBLYTYPE = config["assemblytype"]
 OUTPUTDIR = config["outputdir"]
 READDIR = config["readdir"]
+CATDBDIR = config["catdbdir"]
+CATTAXDIR = config["cattaxdir"]
 
 def getsample_names(dir):
     filelist = os.listdir(config["assemblydir"])
@@ -86,6 +88,46 @@ rule plastid_bin_scan:
         plastidbinset = OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv"
     shell:
         "bash scripts/plastidbinscan.sh -i {input.plastid_seqs} -b {params.bindir} -o {params.plastidbindir}"
+
+#rule quality_estimate:
+#    input:
+#
+#    output:
+#
+#    conda:
+#
+#    shell:
+
+#rule dereplicate_plastids:
+#    input:
+#
+#    output:
+#
+#    conda:
+#        "envs/dRep.yml"
+#    shell:
+
+#rule plastid_markerscan:
+#    input:
+#
+#    output:
+#
+#    conda:
+#        "envs/hmmer.yml"
+#    shell:
+
+rule plastid_source_classification:
+    input:
+        plastidbins =
+    params:
+        cat_outputdir = directory(OUTPUTDIR+"{samplename}/CAT_classification")
+    output:
+        plastid_source_prediction = OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.tx"
+    conda:
+        "envs/CAT_classifier.yml"
+    shell:
+        "bash scripts/source_classifier.sh -i {input.plastidbins} -d CATDBDIR -t CATTAXDIR -o {params.cat_outputdir}"
+
 #
 #    params:
 #        bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),

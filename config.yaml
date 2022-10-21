@@ -17,3 +17,8 @@ assemblytype:
 # Path to directory to contain output results
 outputdir:
     "/hps/research/finn/escameron/plastcovery/testdrive/"
+
+# Path to CAT database & taxonomy
+catdbdir:
+
+cattaxdir:
