@@ -10,7 +10,8 @@ OPTIONS:
       -m Mapping file
       -b Binning directory
       -t Tiara output directory
-	  -p Plastidbin directory
+	    -p Plastidbin directory
+      -s Plastid bin size threshold to keep
 EOF
 }
 
@@ -20,8 +21,9 @@ mappedreads=
 binningdir=
 tiaradir=
 plastidbindir=
+minbinsize=
 
-while getopts "a:m:b:t:h:" OPTION
+while getopts "a:m:b:t:p:s:h:" OPTION
 
 do
 
@@ -38,9 +40,12 @@ do
     t)
       tiaradir=${OPTARG}
       ;;
-	p)
-	  plastidbindir=${OPTARG}
-	  ;;
+    p)
+	    plastidbindir=${OPTARG}
+	    ;;
+    s)
+      minbinsize=${OPTARG}
+      ;;
     h)
       usage
       exit
@@ -53,6 +58,6 @@ do
 
 done
 
-bash scripts/metabat_binning.sh -i ${assembly} -m ${mappedreads} -o ${binningdir}
-
 bash scripts/plastidbinscan.sh -i ${tiaradir} -b ${binningdir} -o ${plastidbindir}
+
+bash scripts/plastidbinstats.sh -i ${binningdir} -o ${plastidbindir} -s ${minbinsize}

@@ -10,6 +10,7 @@ ASSEMBLYDIR = config["assemblydir"]
 ASSEMBLYTYPE = config["assemblytype"]
 OUTPUTDIR = config["outputdir"]
 READDIR = config["readdir"]
+MINPLASTIDCONTENT = config["min_plastid_content"]
 CATDBDIR = config["catdbdir"]
 CATTAXDIR = config["cattaxdir"]
 

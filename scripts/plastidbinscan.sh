@@ -54,8 +54,9 @@ plastidseqlist=${plastidbindir}/plastidseqid.txt
 for CONTIG in `cat $plastidseqlist`
 
 do
-
-  grep ${CONTIG} ${binningdir}/* >> ${plastidbindir}/plastid_binning.tsv
+  #grep ${CONTIG} ${binningdir}/* >> ${plastidbindir}/plastid_binning.tsv
+  binidpath=`grep ${CONTIG} ${binningdir}/* | sed 's/:>.*$//g'
+  echo -e "${CONTIG}\t${binidpath}">> ${plastidbindir}/plastid_binning.tsv
 
 done
 

@@ -7,21 +7,29 @@ Calculate bin statistics on potential plastid bins.
 
 OPTIONS:
       -i Bin directory [REQUIRED]
-
+      -o Plastid bin directory [REQUIRED]
+      -s Minimum plastid bin size, numeric [REQUIRED]
 EOF
 }
 
 #variables
 bindir=
+plastidbindir=
+minbinsize=
 
-
-while getopts "i:h:" OPTION
+while getopts "i:o:h:" OPTION
 
 do
 
   case ${OPTION} in
     i)
       bindir=${OPTARG}
+      ;;
+    s)
+      minbinsize=${OPTARG}
+      ;;
+    o)
+      plastidbindir=${OPTARG}
       ;;
     h)
       usage
@@ -35,13 +43,15 @@ do
 
 done
 
-plastidseqid=plastid_bins.tsv
+mkdir -p ${plastidbindir}/bins
 
-echo -e "bin_id\ttotal_contig_count\tbinsize_nt\tplastid_contig_count\tplastid_total_size_nt\tplastid_contig_count_percent\tplastid_sizent_percent" > bin_stats.tsv
+plastidseqid=${plastidbindir}/plastid_bins.tsv
 
-binstats=bin_stats.tsv
+echo -e "bin_id\ttotal_contig_count\tbinsize_nt\tplastid_contig_count\tplastid_total_size_nt\tplastid_contig_count_percent\tplastid_sizent_percent" > ${plastidbindir}/bin_stats.tsv
 
-for BIN in ${bindir}/*
+binstats=${plastidbindir}/bin_stats.tsv
+
+for BIN in ${bindir}/* # change to loop over entry of tsv
 
 do
   bin=`basename $BIN`
@@ -56,6 +66,10 @@ do
   plastidpercent=`echo "scale=2 ; 100 * ${plastidcount}/${totalcontig}" | bc`
   plastid_length_percent=`echo "scale=2 ; 100 * ${plastidlength}/${binsize}" | bc`
 
-  echo -e "${bin}\t${totalcontig}\t${binsize}\t${plastidcount}\t${plastidlength}\t${plastidpercent}\t${plastid_length_percent}" >> bin_stats.tsv
+  echo -e "${bin}\t${totalcontig}\t${binsize}\t${plastidcount}\t${plastidlength}\t${plastidpercent}\t${plastid_length_percent}" >> ${plastidbindir}/bin_stats.tsv
 
+  if ${plastid_length_percent} > ${minbinsize}
+    mv ${BIN} ${plastidbindir}/bins/
+  fi
+  
 done

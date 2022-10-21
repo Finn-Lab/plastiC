@@ -18,7 +18,12 @@ assemblytype:
 outputdir:
     "/hps/research/finn/escameron/plastcovery/testdrive/"
 
+# minimum plastid bin content
+min_plastid_content:
+    "90"
 # Path to CAT database & taxonomy
 catdbdir:
+    "/hps/research/finn/escameron/databases/CAT_20210107/2021-01-07_database"
 
 cattaxdir:
+    "/hps/research/finn/escameron/databases/CAT_20210107/2021-01-07_taxonomy"
