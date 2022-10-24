@@ -37,7 +37,8 @@ if not os.path.exists(OUTPUTDIR+"/summary/logs"):
 rule all:
     input:
     	expand(OUTPUTDIR+"{samplename}/binning/metabat_depth.txt", samplename = SAMPLENAMES),
-    	expand(OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv", samplename = SAMPLENAMES)
+    	expand(OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv", samplename = SAMPLENAMES),
+        expand(OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.txt", samplename = SAMPLENAMES)
 
 # generate bam file (reads 2 assembly)
 rule reads2assembly:
@@ -132,15 +133,16 @@ rule fetch_plastid_bins:
 
 #rule plastid_source_classification:
 #    input:
-#        plastidbins =
+#        plastidbinstats = plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv"
 #    params:
 #        cat_outputdir = directory(OUTPUTDIR+"{samplename}/CAT_classification")
+#        plastidbins = directory(OUTPUTDIR+"{samplename}/plastidbins/bins")
 #    output:
-#        plastid_source_prediction = OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.tx"
+#        plastid_source_prediction = OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.txt"
 #    conda:
 #        "envs/CAT_classifier.yml"
 #    shell:
-#        "bash scripts/source_classifier.sh -i {input.plastidbins} -d CATDBDIR -t CATTAXDIR -o {params.cat_outputdir}"
+#        "bash scripts/source_classifier.sh -i {params.plastidbins} -d CATDBDIR -t CATTAXDIR -o {params.cat_outputdir}"
 
 #
 #    params:
