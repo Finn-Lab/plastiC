@@ -20,7 +20,7 @@ outputdir:
 
 # minimum plastid bin content
 min_plastid_content:
-    "90"
+    90
 # Path to CAT database & taxonomy
 catdbdir:
     "/hps/research/finn/escameron/databases/CAT_20210107/2021-01-07_database"

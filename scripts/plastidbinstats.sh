@@ -17,7 +17,7 @@ bindir=
 plastidbindir=
 minbinsize=
 
-while getopts "i:o:h:" OPTION
+while getopts "i:o:s:h:" OPTION
 
 do
 
@@ -43,6 +43,7 @@ do
 
 done
 
+echo "The minimum bin size is ${minbinsize}%"
 mkdir -p ${plastidbindir}/bins
 
 plastidseqid=${plastidbindir}/plastid_bins.tsv
@@ -51,7 +52,7 @@ echo -e "bin_id\ttotal_contig_count\tbinsize_nt\tplastid_contig_count\tplastid_t
 
 binstats=${plastidbindir}/bin_stats.tsv
 
-for BIN in ${bindir}/* # change to loop over entry of tsv
+for BIN in ${bindir}/* 
 
 do
   bin=`basename $BIN`
@@ -66,10 +67,17 @@ do
   plastidpercent=`echo "scale=2 ; 100 * ${plastidcount}/${totalcontig}" | bc`
   plastid_length_percent=`echo "scale=2 ; 100 * ${plastidlength}/${binsize}" | bc`
 
+  echo ${plastidpercent}
+  
   echo -e "${bin}\t${totalcontig}\t${binsize}\t${plastidcount}\t${plastidlength}\t${plastidpercent}\t${plastid_length_percent}" >> ${plastidbindir}/bin_stats.tsv
 
-  if [ ${plastid_length_percent} -gt ${minbinsize} ] ; then
-    cp ${BIN} ${plastidbindir}/bins/
-  fi
+  #if [ $((plastid_length_percent)) == 0 ] ; then
+  #	echo "No plastids"
+  #elif [ $((plastid_length_percent%.*)) -ge $((minbinsize)) ] ; then
+   # cp ${BIN} ${plastidbindir}/bins
+  #fi
+
+  awk -v pp=${plastid_length_percent} -v minsize=${minbinsize} -v BIN=${BIN} -v plastidbin=${plastidbindir}/bins \
+  	'BEGIN{if (pp >= minsize){system("cp " BIN " " plastidbin) }}'
 
 done

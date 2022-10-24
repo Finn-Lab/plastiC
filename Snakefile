@@ -92,14 +92,17 @@ rule metabat_binning:
 
 rule fetch_plastid_bins:
     input:
-        plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta"
+        plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta",
+        metabat2_log = OUTPUTDIR+"{samplename}/binning/metabat2.log"
+
+        #minplastidbinsize = MINPLASTIDCONTENT
     params:
         bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
         plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
     output:
         plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv"
     shell:
-        "bash scripts/plastidbinner.sh -b {params.bindir} -t {input.plastid_seqs} -p {params.plastidbindir} -s MINPLASTIDCONTENT"
+        "bash scripts/plastidbinner.sh -b {params.bindir} -t {input.plastid_seqs} -p {params.plastidbindir} -s 90"
 #rule quality_estimate:
 #    input:
 #
