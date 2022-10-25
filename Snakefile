@@ -102,14 +102,14 @@ rule diamond_blastp:
         plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv",
         unirefdb = UNIREFDMND
     params:
-        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins"),
+        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins/bins"),
         keggoutdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/diamond_blastp")
     output:
         diamond_log = OUTPUTDIR+"{samplename}/quality_estimate/diamond.log"
     conda:
         "envs/diamond_blastp.yml"
     shell:
-        "bash scripts/kegg_blastp.sh -i {params.plastidbindir} -db {input.unirefdb} -o {params.keggoutdir} > {output.diamond_log}"
+        "bash scripts/kegg_blastp.sh -i {params.plastidbindir} -d {input.unirefdb} -o {params.keggoutdir} > {output.diamond_log}"
 
 # assign predicted taxonomic classification using CAT
 rule plastid_source_classification:

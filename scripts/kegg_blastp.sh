@@ -7,7 +7,7 @@ Calculate bin statistics on potential plastid bins.
 
 OPTIONS:
       -i Plastid bin directory [REQUIRED]
-      -db Uniref diamond database [REQUIRED]
+      -d Uniref diamond database [REQUIRED]
       -o Output directory [REQUIRED]
 EOF
 }
@@ -17,7 +17,7 @@ plastidbindir=
 database=
 outdir=
 
-while getopts "i:db:o:h:" OPTION
+while getopts "i:d:o:h:" OPTION
 
 do
 
@@ -25,7 +25,7 @@ do
     i)
       plastidbindir=${OPTARG}
       ;;
-    db)
+    d)
       database=${OPTARG}
       ;;
     o)
