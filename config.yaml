@@ -23,7 +23,7 @@ min_plastid_content:
     90
 # Path to CAT database & taxonomy
 catdbdir:
-    "/hps/research/finn/escameron/databases/CAT_20210107/2021-01-07_database"
+    "/hps/research/finn/escameron/databases/CAT_prepare_20210107/2021-01-07_CAT_database/"
 
 cattaxdir:
-    "/hps/research/finn/escameron/databases/CAT_20210107/2021-01-07_taxonomy"
+    "/hps/research/finn/escameron/databases/CAT_prepare_20210107/2021-01-07_taxonomy/"

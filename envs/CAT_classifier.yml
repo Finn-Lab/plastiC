@@ -2,4 +2,4 @@ name: CAT_classifier
 channels:
     - bioconda
 dependencies:
-    - cat
+    - cat=5.2.3

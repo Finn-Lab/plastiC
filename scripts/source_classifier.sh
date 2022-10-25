@@ -19,7 +19,7 @@ databasedir=
 taxonomydir=
 outputdir=
 
-while getopts "i:b:o:h:" OPTION
+while getopts "i:d:t:o:h:" OPTION
 
 do
 
