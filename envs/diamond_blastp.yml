@@ -1,0 +1,5 @@
+name: diamond_blastp
+channels:
+  - bioconda
+dependencies:
+  - diamond=2.0.15

@@ -27,3 +27,7 @@ catdbdir:
 
 cattaxdir:
     "/hps/research/finn/escameron/databases/CAT_prepare_20210107/2021-01-07_taxonomy/"
+
+# Path to Uniref Diamond DB
+unirefdb:
+  "/hps/research/finn/escameron/checkm2/CheckM2_database/uniref100.KO.1.dmnd"

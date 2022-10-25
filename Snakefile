@@ -13,6 +13,7 @@ READDIR = config["readdir"]
 MINPLASTIDCONTENT = config["min_plastid_content"]
 CATDBDIR = config["catdbdir"]
 CATTAXDIR = config["cattaxdir"]
+UNIREFDMND = config["unirefdb"]
 
 def getsample_names(dir):
     filelist = os.listdir(config["assemblydir"])
@@ -64,6 +65,7 @@ rule jgi_depth:
 	shell:
 		"jgi_summarize_bam_contig_depths --outputDepth {output.jgidepth} {input.bamout}"
 
+# bin using metabat
 rule metabat_binning:
     input:
         seqs = ASSEMBLYDIR+"{samplename}/"+ASSEMBLYTYPE+".fasta",
@@ -78,19 +80,7 @@ rule metabat_binning:
     shell:
         "metabat2 -i {input.seqs} -a {input.jgidepth} -o {params.bin_prefix} -s 50000 --unbinned > {output.metabat2_log}"
 
-#rule plastid_bin_scan:
-#    input:
-#        plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta",
-#        #unbinned_seqs_holder = OUTPUTDIR+"{samplename}/binning/bins/bin.unbinned.fa",
-#        metabat2_log = OUTPUTDIR+"{samplename}/binning/metabat2.log"
-#    params:
-#        bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
-#        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
-#    output:
-#        plastidbinset = OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv"
-#    shell:
-#        "bash scripts/plastidbinscan.sh -i {input.plastid_seqs} -b {params.bindir} -o {params.plastidbindir}"
-
+# scan bins for plastid reads and select ones that are likely plastid based on seq lengths
 rule fetch_plastid_bins:
     input:
         plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta",
@@ -104,35 +94,26 @@ rule fetch_plastid_bins:
         plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv"
     shell:
         "bash scripts/plastidbinner.sh -b {params.bindir} -t {input.plastid_seqs} -p {params.plastidbindir} -s 90"
-#rule quality_estimate:
-#    input:
-#
-#    output:
-#
-#    conda:
-#
-#    shell:
 
-#rule dereplicate_plastids:
-#    input:
-#
-#    output:
-#
-#    conda:
-#        "envs/dRep.yml"
-#    shell:
+# diamond blastp kegg search
+rule diamond_blastp:
+    input:
+        plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv",
+        unirefdb = UNIREFDMND
+    params:
+        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
+        keggoutdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/diamond_blastp")
+    output:
+        diamond_log = OUTPUTDIR+"{samplename}/quality_estimate/diamond.log"
+    conda:
+        "envs/diamond_blastp.yml"
+    shell:
+        "bash scripts/kegg_blastp.sh -i {params.plastidbindir} -db {input.unirefdb} -o {params.keggoutdir} > {output.diamond_log}"
 
-#rule plastid_markerscan:
-#    input:
-#
-#    output:
-#
-#    conda:
-#        "envs/hmmer.yml"
-#    shell:
-
+# assign predicted taxonomic classification using CAT
 rule plastid_source_classification:
     input:
+        diamond_log = OUTPUTDIR+"{samplename}/quality_estimate/diamond.log",
         plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv",
         catdb = CATDBDIR,
         cattax = CATTAXDIR
@@ -145,15 +126,3 @@ rule plastid_source_classification:
         "envs/CAT_classifier.yml"
     shell:
         "bash scripts/source_classifier.sh -i {params.plastidbins} -d {input.catdb} -t {input.cattax} -o {params.cat_outputdir}"
-
-#
-#    params:
-#        bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
-#        tiaraoutdir = directory(OUTPUTDIR+"{samplename}/tiara"),
-#        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
-#    output:
-#        plastidbins = OUTPUTDIR+"{samplename}/plastidbins/plastid_bins.tsv"
-#    conda:
-#        "envs/binner.yml"
-#    shell:
-#        "bash scripts/plastidbinner.sh -a {input.seqs} -m {input.bamout} -b {params.bindir} -t {params.tiaraoutdir} -p {params.plastidbindir}"
