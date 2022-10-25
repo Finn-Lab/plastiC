@@ -38,11 +38,15 @@ do
 
 done
 
+mkdir -p ${outdir}/proteins
+mkdir -p ${outdir}/nt_genes
+mkdir -p ${outdir}/prodigalout
+
 for BIN in ${plastidbindir}/*
 
 do
   bin=`basename $BIN`
   bin=${bin%.fa}
 
-  prodigal -a ${outdir}/proteins/${bin}.fa -d ${outdir}/nt_genes/${bin}.fa -i ${BIN} -o ${outdir}/prodigalout/${bin}
+  prodigal -a ${outdir}/proteins/${bin}.fa -d ${outdir}/nt_genes/${bin}.fa -i ${BIN} -o ${outdir}/prodigalout/${bin}.out
 done

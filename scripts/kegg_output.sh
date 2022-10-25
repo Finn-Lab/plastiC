@@ -27,7 +27,7 @@ do
       plastidbindir=${OPTARG}
       ;;
     p)
-      prodigaldir=${OPTARG
+      prodigaldir=${OPTARG}
       ;;
     d)
       database=${OPTARG}
@@ -47,7 +47,9 @@ do
 
 done
 
+mkdir -p ${prodigaldir}
+mkdir -p ${outdir}
 
-bash genepred.sh -i ${plastidbindir} -o ${prodigaldir}
+bash scripts/genepred.sh -i ${plastidbindir} -o ${prodigaldir}
 
-bash diamond_blastp.sh -i ${prodigaldir}/proteins -d ${database} -o ${outdir}
+bash scripts/diamond_blastp.sh -i ${prodigaldir}/proteins -d ${database} -o ${outdir}
