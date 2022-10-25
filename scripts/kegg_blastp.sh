@@ -29,7 +29,7 @@ do
       database=${OPTARG}
       ;;
     o)
-      outputdir=${OPTARG}
+      outdir=${OPTARG}
       ;;
     h)
       usage

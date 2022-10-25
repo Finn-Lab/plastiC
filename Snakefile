@@ -40,7 +40,8 @@ rule all:
     	expand(OUTPUTDIR+"{samplename}/binning/metabat_depth.txt", samplename = SAMPLENAMES),
     	expand(OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv", samplename = SAMPLENAMES),
         expand(OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.txt", samplename = SAMPLENAMES)
-
+		#expand(OUTPUTDIR+"{samplename}/quality_estimate/diamond.log", samplename = SAMPLENAMES)
+		
 # generate bam file (reads 2 assembly)
 rule reads2assembly:
     input:
@@ -101,7 +102,7 @@ rule diamond_blastp:
         plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv",
         unirefdb = UNIREFDMND
     params:
-        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins")
+        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins"),
         keggoutdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/diamond_blastp")
     output:
         diamond_log = OUTPUTDIR+"{samplename}/quality_estimate/diamond.log"
