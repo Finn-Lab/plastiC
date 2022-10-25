@@ -41,7 +41,7 @@ rule all:
     	expand(OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv", samplename = SAMPLENAMES),
         expand(OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.txt", samplename = SAMPLENAMES)
 		#expand(OUTPUTDIR+"{samplename}/quality_estimate/diamond.log", samplename = SAMPLENAMES)
-		
+
 # generate bam file (reads 2 assembly)
 rule reads2assembly:
     input:
@@ -103,13 +103,14 @@ rule diamond_blastp:
         unirefdb = UNIREFDMND
     params:
         plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins/bins"),
-        keggoutdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/diamond_blastp")
+        keggoutdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/diamond_blastp"),
+        prodigaldir = directory(OUTPUTDIR+"{samplename}/prodigal")
     output:
-        diamond_log = OUTPUTDIR+"{samplename}/quality_estimate/diamond.log"
+        kegg_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg.log"
     conda:
-        "envs/diamond_blastp.yml"
+        "envs/kegg.yml"
     shell:
-        "bash scripts/kegg_blastp.sh -i {params.plastidbindir} -d {input.unirefdb} -o {params.keggoutdir} > {output.diamond_log}"
+        "bash scripts/kegg_output.sh -i {params.plastidbindir} -p {params.prodigaldir}-d {input.unirefdb} -o {params.keggoutdir} > {output.kegg_log}"
 
 # assign predicted taxonomic classification using CAT
 rule plastid_source_classification:

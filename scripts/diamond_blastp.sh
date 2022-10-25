@@ -3,10 +3,10 @@ usage()
 cat << EOF
 usage: $0 options
 
-Calculate bin statistics on potential plastid bins.
+Diamond blastp against Uniref KEGG database
 
 OPTIONS:
-      -i Plastid bin directory [REQUIRED]
+      -i Plastid bin directory (proteins) [REQUIRED]
       -d Uniref diamond database [REQUIRED]
       -o Output directory [REQUIRED]
 EOF
