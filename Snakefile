@@ -39,7 +39,9 @@ rule all:
     input:
     	expand(OUTPUTDIR+"{samplename}/binning/metabat_depth.txt", samplename = SAMPLENAMES),
     	expand(OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv", samplename = SAMPLENAMES),
-        expand(OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.txt", samplename = SAMPLENAMES)
+        expand(OUTPUTDIR+"{samplename}/quality_estimate/kegg_data.csv", samplename = SAMPLENAMES)
+
+        #expand(OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.txt", samplename = SAMPLENAMES)
 		#expand(OUTPUTDIR+"{samplename}/quality_estimate/diamond.log", samplename = SAMPLENAMES)
 
 # generate bam file (reads 2 assembly)
@@ -128,9 +130,14 @@ rule kegg_counter:
     input:
         kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
     params:
-        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
+        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts"),
+        qualitydir = directory(OUTPUTDIR+"{samplename}/quality_estimate")
     output:
-        
+        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/kegg_data.csv"
+    conda:
+        "envs/kegg_prep.yml"
+    shell:
+        "python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {params.qualitydir}"
 # assign predicted taxonomic classification using CAT
 rule plastid_source_classification:
     input:
