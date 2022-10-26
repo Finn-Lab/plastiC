@@ -6,9 +6,11 @@ usage: $0 options
 Gene prediction and KEGG annotations for plastid bins for downstream quality estimates.
 
 OPTIONS:
-      -i Plastid bin directory (proteins) [REQUIRED]
+      -i Plastid bin directory [REQUIRED]
+      -p Prodigal output directory
       -d Uniref diamond database [REQUIRED]
-      -o Output directory [REQUIRED]
+      -o KEGG Output directory [REQUIRED]
+      -c Kegg countd directory
 EOF
 }
 
@@ -16,9 +18,10 @@ EOF
 plastidbindir=
 prodigaldir=
 database=
-outdir=
+keggoutdir=
+keggcountdir=
 
-while getopts "i:p:d:o:h:" OPTION
+while getopts "i:p:d:o:c:h:" OPTION
 
 do
 
@@ -33,8 +36,10 @@ do
       database=${OPTARG}
       ;;
     o)
-      outdir=${OPTARG}
+      keggoutdir=${OPTARG}
       ;;
+    c)
+      keggcountdir=${OPTARG}
     h)
       usage
       exit
@@ -52,4 +57,6 @@ mkdir -p ${outdir}
 
 bash scripts/genepred.sh -i ${plastidbindir} -o ${prodigaldir}
 
-bash scripts/diamond_blastp.sh -i ${prodigaldir}/proteins -d ${database} -o ${outdir}
+bash scripts/diamond_blastp.sh -i ${prodigaldir}/proteins -d ${database} -o ${keggoutdir}
+
+bash scripts/keggcounter.sh -i ${keggoutdir} -o ${keggcountdir}
