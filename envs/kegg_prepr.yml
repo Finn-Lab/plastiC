@@ -1,6 +1,0 @@
-name: kegg_prepr
-channels:
-  - r
-dependencies:
-  - r
-  - tidyverse

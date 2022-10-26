@@ -124,6 +124,13 @@ rule kegg_counter:
     shell:
         "bash scripts/keggcounter.sh -i {params.keggoutdir} -o {params.keggcountdir} > {output.kegg_counts_log}"
 
+# prepare kegg counts for quality estimate
+    input:
+        kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
+    params:
+        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
+    output:
+        
 # assign predicted taxonomic classification using CAT
 rule plastid_source_classification:
     input:
