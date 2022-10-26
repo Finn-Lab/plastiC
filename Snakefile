@@ -138,6 +138,19 @@ rule kegg_prep:
         "envs/kegg_prep.yml"
     shell:
         "python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep}"
+
+# completeness estimate
+rule quality_estimate:
+    input:
+        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/kegg_data.csv"
+    output:
+        completeness = OUTPUTDIR+"{samplename}/quality_estimate/completeness.csv"
+    conda:
+        "envs/kegg_prep.yml"
+    shell:
+        "python3 scripts/quality_estimate.py -k {input.keggdataprep} -o {output.completeness}"
+
+        
 # assign predicted taxonomic classification using CAT
 rule plastid_source_classification:
     input:
