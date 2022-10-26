@@ -5,3 +5,5 @@ channels:
 dependencies:
   - pandas
   - argparse
+  - numpy
+  - scikit-learn=1.1.1

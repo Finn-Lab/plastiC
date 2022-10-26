@@ -2,6 +2,8 @@ import pickle
 import pandas as pd
 import os
 import argparse
+import csv
+import numpy as np
 
 def load_data(path):
     y = []
@@ -15,7 +17,7 @@ def load_data(path):
     return X, y
 
 # load the completeness model
-completeness_model = pickle.load(open("resources/completeness_prediction.model", "rb"))
+completeness_model = pickle.load(open("/hps/research/finn/escameron/plastcovery/resources/quality_estimates/completeness.model", "rb"))
 
 # predict completeness
 def completeness_estimate(X):
