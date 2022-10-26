@@ -38,6 +38,8 @@ do
 
 done
 
+mkdir -p ${keggcountdir}
+
 for SAMPLE in ${keggoutdir}/*.csv
 
 do

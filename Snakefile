@@ -115,8 +115,7 @@ rule diamond_blastp:
 
 rule kegg_counter:
     input:
-        kegg_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_out.log",
-
+        kegg_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_out.log"
     params:
         keggoutdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/diamond_blastp"),
         keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
@@ -124,10 +123,11 @@ rule kegg_counter:
         kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
     shell:
         "bash scripts/keggcounter.sh -i {params.keggoutdir} -o {params.keggcountdir} > {output.kegg_counts_log}"
+
 # assign predicted taxonomic classification using CAT
 rule plastid_source_classification:
     input:
-        kegg_counts_log
+        kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log",
         plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv",
         catdb = CATDBDIR,
         cattax = CATTAXDIR

@@ -55,7 +55,7 @@ done
 
 mkdir -p ${prodigaldir}
 mkdir -p ${keggoutdir}
-mkdir -p ${keggcountdir}
+#mkdir -p ${keggcountdir}
 
 bash scripts/genepred.sh -i ${plastidbindir} -o ${prodigaldir}
 
