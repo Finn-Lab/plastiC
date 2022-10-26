@@ -88,7 +88,6 @@ rule fetch_plastid_bins:
     input:
         plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta",
         metabat2_log = OUTPUTDIR+"{samplename}/binning/metabat2.log"
-
         #minplastidbinsize = MINPLASTIDCONTENT
     params:
         bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
@@ -127,6 +126,7 @@ rule kegg_counter:
         "bash scripts/keggcounter.sh -i {params.keggoutdir} -o {params.keggcountdir} > {output.kegg_counts_log}"
 
 # prepare kegg counts for quality estimate
+rule kegg_prep:
     input:
         kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
     params:
@@ -137,7 +137,7 @@ rule kegg_counter:
     conda:
         "envs/kegg_prep.yml"
     shell:
-        "python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {params.qualitydir}"
+        "python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep}"
 # assign predicted taxonomic classification using CAT
 rule plastid_source_classification:
     input:

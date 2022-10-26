@@ -1,4 +1,5 @@
-import pandas
+
+import pandas as pd
 import os
 import argparse
 
@@ -13,7 +14,7 @@ def bin_kegg_count_parse(keggcountpath):
     keggoutput_list = []
 
     for file in filelist:
-        keggout = pd.read_csv(keggcountpath + file, sep = " ")
+        keggout = pd.read_csv(keggcountpath + "/" + file, sep = " ")
         keggout.columns = ["KEGG"]
         keggout["compholder"] = 47
         keggout["bin_id"] = file[0:-18]
@@ -22,7 +23,7 @@ def bin_kegg_count_parse(keggcountpath):
 
     keggoutputs = pd.concat(keggoutput_list)
 
-    keggoutput_spread = keggoutputs.pivot_table(index = ["bin_id"], columns = "KEGG", values = "count", fill_value = 0)
+    keggoutputspread = keggoutputs.pivot_table(index = ["bin_id", "compholder"], columns = "KEGG", values = "count", fill_value = 0)
 
     keggoutput_id = keggoutputspread.columns.tolist()
 
@@ -31,7 +32,9 @@ def bin_kegg_count_parse(keggcountpath):
     for kegg in missing_kegg_list:
         keggoutputspread[kegg] = 0
 
-    bin_kegg_count = keggoutputspread.reindex(columns=training_kegg_id).reset_index(level=["compholder"])
+    keggoutputspread_defrag = keggoutputspread.copy()
+    
+    bin_kegg_count = keggoutputspread_defrag.reindex(columns=training_kegg_id).reset_index(level=["compholder"])
 
     return bin_kegg_count
 
@@ -39,9 +42,11 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument('-kc', '--keggcounts', required=True, type=str,
                     help='KEGG Count directory')
-    ap.add_argument('-o', '--outdir', required=True, type=str,
-                    help='Output directory')
+    ap.add_argument('-o', '--outfile', required=True, type=str,
+                    help='Output file')
 
-
+    args = ap.parse_args()
+    
     bin_kegg_count = bin_kegg_count_parse(args.keggcounts)
-    bin_kegg_count.to_csv(arg.outdir + 'kegg_data.csv',index=False)
+    
+    bin_kegg_count.to_csv(args.outfile, index=False, header=False)
