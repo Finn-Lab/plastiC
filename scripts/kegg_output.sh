@@ -10,7 +10,7 @@ OPTIONS:
       -p Prodigal output directory
       -d Uniref diamond database [REQUIRED]
       -o KEGG Output directory [REQUIRED]
-      -c Kegg countd directory
+      -c Kegg countd directory [REMOVED]
 EOF
 }
 
@@ -19,9 +19,9 @@ plastidbindir=
 prodigaldir=
 database=
 keggoutdir=
-keggcountdir=
+#keggcountdir=
 
-while getopts "i:p:d:o:c:h:" OPTION
+while getopts "i:p:d:o:h:" OPTION
 
 do
 
@@ -38,9 +38,9 @@ do
     o)
       keggoutdir=${OPTARG}
       ;;
-    c)
-      keggcountdir=${OPTARG}
-      ;;
+    #c)
+    #  keggcountdir=${OPTARG}
+    #  ;;
     h)
       usage
       exit
@@ -61,4 +61,4 @@ bash scripts/genepred.sh -i ${plastidbindir} -o ${prodigaldir}
 
 bash scripts/diamond_blastp.sh -i ${prodigaldir}/proteins -d ${database} -o ${keggoutdir}
 
-bash scripts/keggcounter.sh -i ${keggoutdir} -o ${keggcountdir}
+#bash scripts/keggcounter.sh -i ${keggoutdir} -o ${keggcountdir}
