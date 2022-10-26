@@ -40,6 +40,7 @@ do
       ;;
     c)
       keggcountdir=${OPTARG}
+      ;;
     h)
       usage
       exit
@@ -53,7 +54,8 @@ do
 done
 
 mkdir -p ${prodigaldir}
-mkdir -p ${outdir}
+mkdir -p ${keggoutdir}
+mkdir -p ${keggcountdir}
 
 bash scripts/genepred.sh -i ${plastidbindir} -o ${prodigaldir}
 

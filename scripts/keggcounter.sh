@@ -41,8 +41,9 @@ done
 for SAMPLE in ${keggoutdir}/*.csv
 
 do
-
+  #echo ${SAMPLE}
   sample=`basename ${SAMPLE}`
+  #echo ${sample}
   sample=${sample%_kegg.csv}
 
   cut -f 2 ${SAMPLE} | cut -f 2 -d '~' > ${keggcountdir}/${sample}_keggid_counts.txt

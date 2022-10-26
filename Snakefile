@@ -104,18 +104,19 @@ rule diamond_blastp:
     params:
         plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins/bins"),
         keggoutdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/diamond_blastp"),
-        prodigaldir = directory(OUTPUTDIR+"{samplename}/prodigal")
+        prodigaldir = directory(OUTPUTDIR+"{samplename}/prodigal"),
+        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
     output:
-        kegg_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg.log"
+        kegg_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts/count.log"
     conda:
         "envs/kegg.yml"
     shell:
-        "bash scripts/kegg_output.sh -i {params.plastidbindir} -p {params.prodigaldir} -d {input.unirefdb} -o {params.keggoutdir} > {output.kegg_log}"
+        "bash scripts/kegg_output.sh -i {params.plastidbindir} -p {params.prodigaldir} -d {input.unirefdb} -o {params.keggoutdir} -c ${params.keggcountdir} > {output.kegg_log}"
 
 # assign predicted taxonomic classification using CAT
 rule plastid_source_classification:
     input:
-        kegg_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg.log",
+        kegg_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts/count.log",
         plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv",
         catdb = CATDBDIR,
         cattax = CATTAXDIR
