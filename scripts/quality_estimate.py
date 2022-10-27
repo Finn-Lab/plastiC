@@ -22,7 +22,8 @@ completeness_model = pickle.load(open("/hps/research/finn/escameron/plastcovery/
 # predict completeness
 def completeness_estimate(X):
     completeness_prediction = completeness_model.predict(X) # numpy array
-    completeness_prediction_df = pd.DataFrame(completeness_prediction)
+    completeness_prediction_df = pd.DataFrame(completeness_prediction * 100)
+    completeness_prediction_df["id"] = filenames
     return completeness_prediction_df
 
 #df.to_csv('completeness.csv',index=False)
@@ -31,11 +32,14 @@ def completeness_estimate(X):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument('-k', '--keggdataprep', required=True, type=str,
-                    help='KEGG Count directory')
+                    help='KEGG data prep csv')
+    ap.add_argument('-kc', '--keggcountdir', required=True, type=str,
+                    help='KEGG count directory')
     ap.add_argument('-o', '--outfile', required=True, type=str,
                     help='Output file')
 
     args = ap.parse_args()
+    filenames = os.listdir(args.keggcountdir)
     X, y = load_data(args.keggdataprep)
     completeness_prediction_df = completeness_estimate(X)
     completeness_prediction_df.to_csv(args.outfile, header=False,index=False)

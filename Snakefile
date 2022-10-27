@@ -143,12 +143,14 @@ rule kegg_prep:
 rule quality_estimate:
     input:
         keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/kegg_data.csv"
+    params:
+        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
     output:
         completeness = OUTPUTDIR+"{samplename}/quality_estimate/completeness.csv"
     conda:
         "envs/quality.yml"
     shell:
-        "python3 scripts/quality_estimate.py -k {input.keggdataprep} -o {output.completeness}"
+        "python3 scripts/quality_estimate.py -k {input.keggdataprep} -kc {params.keggcountdir} -o {output.completeness}"
 
 
 # assign predicted taxonomic classification using CAT
