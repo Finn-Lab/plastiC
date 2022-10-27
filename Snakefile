@@ -135,7 +135,7 @@ rule kegg_prep:
     output:
         keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/kegg_data.csv"
     conda:
-        "envs/kegg_prep.yml"
+        "envs/kegg_quality.yml"
     shell:
         "python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep}"
 
@@ -146,7 +146,7 @@ rule quality_estimate:
     output:
         completeness = OUTPUTDIR+"{samplename}/quality_estimate/completeness.csv"
     conda:
-        "envs/kegg_prep.yml"
+        "envs/quality.yml"
     shell:
         "python3 scripts/quality_estimate.py -k {input.keggdataprep} -o {output.completeness}"
 

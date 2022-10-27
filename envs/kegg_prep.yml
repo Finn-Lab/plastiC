@@ -1,9 +1,0 @@
-name: kegg_prep
-channels:
-  - anaconda
-  - conda-forge
-dependencies:
-  - pandas
-  - argparse
-  - numpy
-  - scikit-learn=1.1.1

@@ -38,4 +38,4 @@ if __name__ == "__main__":
     args = ap.parse_args()
     X, y = load_data(args.keggdataprep)
     completeness_prediction_df = completeness_estimate(X)
-    df.to_csv(args.outfile, header=False,index=False)
+    completeness_prediction_df.to_csv(args.outfile, header=False,index=False)
