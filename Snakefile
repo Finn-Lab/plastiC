@@ -40,7 +40,9 @@ rule all:
     	expand(OUTPUTDIR+"{samplename}/binning/metabat_depth.txt", samplename = SAMPLENAMES),
     	expand(OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv", samplename = SAMPLENAMES),
         expand(OUTPUTDIR+"{samplename}/quality_estimate/completeness_estimate.csv", samplename = SAMPLENAMES),
-        expand(OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_estimate.csv", samplename = SAMPLENAMES)
+        expand(OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_estimate.csv", samplename = SAMPLENAMES),
+        expand(OUTPUTDIR+"summary/{samplename}_plastidinfo.csv", samplename = SAMPLENAMES)
+
 
     	#expand(OUTPUTDIR+"{samplename}/quality_estimate/quality_estimate.csv", samplename = SAMPLENAMES)
 
@@ -197,4 +199,16 @@ rule plastid_source_classification:
         "bash scripts/source_classifier.sh -i {params.plastidbins} -d {input.catdb} -t {input.cattax} -o {params.cat_outputdir}"
 
 # summary file
-#rule summary
+rule summary:
+    input:
+        completeness = OUTPUTDIR+"{samplename}/quality_estimate/completeness_estimate.csv",
+        contamination = OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_estimate.csv",
+        taxonomy = OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.txt"
+    params:
+        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins/bins")
+    output:
+        summary = OUTPUTDIR+"summary/{samplename}_plastidinfo.csv"
+    conda:
+        "envs/quality.yml"
+    shell:
+        "python3 scripts/summary.py  -comp {input.completeness} -cont {input.contamination} -t {input.taxonomy} -b {params.plastidbindir} -o {output.summary}"
