@@ -125,18 +125,17 @@ rule kegg_counter:
     shell:
         "bash scripts/keggcounter.sh -i {params.keggoutdir} -o {params.keggcountdir} > {output.kegg_counts_log}"
 
-rule kegg_prep_bin_completeness:
-  input:
-        kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
-    params:
-        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts"),
-        qualitydir = directory(OUTPUTDIR+"{samplename}/quality_estimate")
-    output:
-        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/comp_kegg_data.csv"
-    conda:
-        "envs/kegg_quality.yml"
-    shell:
-        "python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep} -l resources/quality_estimates/training_kegg_id_list.txt"
+rule binprep_completeness:
+	input:
+		kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
+	params:
+		keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
+	output:
+		keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/comp_kegg_data.csv"
+	conda:
+		"envs/quality.yml"
+	shell:
+		"python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep} -l resources/quality_estimates/training_kegg_id_list.txt"
 
 rule completeness_estimate:
     input:
