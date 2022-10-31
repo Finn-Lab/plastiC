@@ -10,16 +10,20 @@ def bin_kegg_count_parse(keggcountpath, keggorder):
         training_kegg_id = f.read().splitlines()
 
     filelist = os.listdir(keggcountpath)
-    
+
     keggoutput_list = []
 
-    for file in filelist:
-        keggout = pd.read_csv(keggcountpath + "/" + file, sep = " ", header = None)
-        keggout.columns = ["KEGG"]
-        keggout["compholder"] = 47
-        keggout["bin_id"] = file
-        keggout["count"] = keggout.groupby(["KEGG"])["KEGG"].transform("count")
-        keggoutput_list.append(keggout)
+    if os.path.getsize(keggcountpath + "/" + file) = 0:
+        print("File is empty")
+        continue
+    else:
+        for file in filelist:
+            keggout = pd.read_csv(keggcountpath + "/" + file, sep = " ", header = None)
+            keggout.columns = ["KEGG"]
+            keggout["compholder"] = 47
+            keggout["bin_id"] = file
+            keggout["count"] = keggout.groupby(["KEGG"])["KEGG"].transform("count")
+            keggoutput_list.append(keggout)
 
     keggoutputs = pd.concat(keggoutput_list)
 
@@ -35,7 +39,7 @@ def bin_kegg_count_parse(keggcountpath, keggorder):
      #   keggoutputspread[kegg] = 0
 
     #keggoutputspread_defrag = keggoutputspread.copy()
-    
+
     bin_kegg_count = keggoutputspread_new.reindex(columns=training_kegg_id).reset_index(level=["compholder"])
 
     return bin_kegg_count
@@ -49,7 +53,7 @@ if __name__ == "__main__":
     ap.add_argument('-l', '--keggorderlist', required=True, type=str, help='KEGG Order')
 
     args = ap.parse_args()
-    
+
     bin_kegg_count = bin_kegg_count_parse(args.keggcounts, args.keggorderlist)
-    
+
     bin_kegg_count.to_csv(args.outfile, index=False, header=False)
