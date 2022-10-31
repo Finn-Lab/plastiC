@@ -19,7 +19,7 @@ def load_data(path):
 # load the completeness model
 
 # predict completeness
-def completeness_estimate(X):
+def quality_estimate(X):
     completeness_prediction = completeness_model.predict(X) # numpy array
     completeness_prediction_df = pd.DataFrame(completeness_prediction * 100)
     completeness_prediction_df = completeness_prediction_df.round(decimals = 2)
@@ -46,6 +46,8 @@ if __name__ == "__main__":
 
     filenames = os.listdir(args.keggcountdir)
     X, y = load_data(args.keggdataprep)
-    completeness_prediction_df = completeness_estimate(X)
-    colnames = id + args.type
-    completeness_prediction_df.to_csv(args.outfile, header=colnames,index=False)
+    quality_prediction_df = quality_estimate(X)
+    colnames = ["id"]
+    colnames.append(args.type)
+    print(colnames)
+    quality_prediction_df.to_csv(args.outfile, header=colnames,index=False)
