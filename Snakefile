@@ -39,7 +39,7 @@ rule all:
     input:
     	expand(OUTPUTDIR+"{samplename}/binning/metabat_depth.txt", samplename = SAMPLENAMES),
     	expand(OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv", samplename = SAMPLENAMES),
-        expand(OUTPUTDIR+"{samplename}/quality_estimate/completeness.csv", samplename = SAMPLENAMES)
+        expand(OUTPUTDIR+"{samplename}/quality_estimate/quality_estimate.csv", samplename = SAMPLENAMES)
 
         #expand(OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.txt", samplename = SAMPLENAMES)
 		#expand(OUTPUTDIR+"{samplename}/quality_estimate/diamond.log", samplename = SAMPLENAMES)
@@ -146,7 +146,7 @@ rule quality_estimate:
     params:
         keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
     output:
-        completeness = OUTPUTDIR+"{samplename}/quality_estimate/completeness.csv"
+        completeness = OUTPUTDIR+"{samplename}/quality_estimate/quality_estimate.csv"
     conda:
         "envs/quality.yml"
     shell:
