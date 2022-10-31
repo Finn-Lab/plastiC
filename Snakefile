@@ -125,48 +125,30 @@ rule kegg_counter:
     shell:
         "bash scripts/keggcounter.sh -i {params.keggoutdir} -o {params.keggcountdir} > {output.kegg_counts_log}"
 
-rule completeness_estimate:
-    input:
+rule kegg_prep_bin_completeness:
+  input:
         kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
     params:
         keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts"),
-        qualitydir = directory(OUTPUTDIR+"{samplename}/quality_estimate/")
+        qualitydir = directory(OUTPUTDIR+"{samplename}/quality_estimate")
     output:
-        dataprep = OUTPUTDIR+"{samplename}/quality_estimate/c_dataprep.csv",
+        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/comp_kegg_data.csv"
+    conda:
+        "envs/kegg_quality.yml"
+    shell:
+        "python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep} -l resources/quality_estimates/training_kegg_id_list.txt"
+
+rule completeness_estimate:
+    input:
+        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/comp_kegg_data.csv"
+    params:
+        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
+    output:
         completeness = OUTPUTDIR+"{samplename}/quality_estimate/quality_estimate.csv"
     conda:
         "envs/quality.yml"
     shell:
-        "bash scripts/quality_suite.sh -kc {params.keggcountdir} -o {output.dataprep} -l resources/quality_estimates/training_kegg_id_list.txt -q {output.dataprep} -m resources/quality_estimate/completeness.model"
-
-#prepare kegg counts for quality estimate
-#rule kegg_prep:
-#  input:
-#        kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
-#    params:
-#        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts"),
-#        qualitydir = directory(OUTPUTDIR+"{samplename}/quality_estimate")
-#    output:
-#        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/kegg_data.csv"
-#    conda:
-#        "envs/kegg_quality.yml"
-#    shell:
-#        "python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep}"
-
-# completeness estimate
-#rule quality_estimate:
-#    input:
-        #keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/kegg_data.csv"
-#        kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
-#    params:
-#        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
-#    output:
-#        completeness = OUTPUTDIR+"{samplename}/quality_estimate/quality_estimate.csv"
-#    conda:
-#        "envs/quality.yml"
-#    shell:
-#        "python3 scripts/completeness_estimate.py -kc {params.keggcountdir} -o {output.completeness}"
-
+        "python3 scripts/quality_estimate_base.py -k {input.keggdataprep} -kc {params.keggcountdir} -o {output.completeness} -m resources/quality_estimates/completeness.model"
 
 # assign predicted taxonomic classification using CAT
 rule plastid_source_classification:
