@@ -151,7 +151,7 @@ rule completeness_estimate:
     conda:
         "envs/quality.yml"
     shell:
-        "python3 scripts/quality_estimate_base.py -k {input.keggdataprep} -kc {params.keggcountdir} -o {output.completeness} -m resources/quality_estimates/completeness.model"
+        "python3 scripts/quality_estimate_base.py -k {input.keggdataprep} -kc {params.keggcountdir} -o {output.completeness} -m resources/quality_estimates/completeness.model -t completeness"
 
 
 # mitochondrial contamination estimate
@@ -177,7 +177,7 @@ rule mitocontam_estimate:
     conda:
         "envs/quality.yml"
     shell:
-        "python3 scripts/quality_estimate_base.py -k {input.keggdataprep} -kc {params.keggcountdir} -o {output.completeness} -m resources/quality_estimates/mitochloromodel1_defgbr.model"
+        "python3 scripts/quality_estimate_base.py -k {input.keggdataprep} -kc {params.keggcountdir} -o {output.completeness} -m resources/quality_estimates/mitochloromodel1_defgbr.model -t mito_contam"
 
 # assign predicted taxonomic classification using CAT
 rule plastid_source_classification:
@@ -195,3 +195,6 @@ rule plastid_source_classification:
         "envs/CAT_classifier.yml"
     shell:
         "bash scripts/source_classifier.sh -i {params.plastidbins} -d {input.catdb} -t {input.cattax} -o {params.cat_outputdir}"
+
+# summary file
+#rule summary
