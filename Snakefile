@@ -126,23 +126,24 @@ rule kegg_counter:
         "bash scripts/keggcounter.sh -i {params.keggoutdir} -o {params.keggcountdir} > {output.kegg_counts_log}"
 
 # prepare kegg counts for quality estimate
-rule kegg_prep:
-    input:
-        kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
-    params:
-        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts"),
-        qualitydir = directory(OUTPUTDIR+"{samplename}/quality_estimate")
-    output:
-        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/kegg_data.csv"
-    conda:
-        "envs/kegg_quality.yml"
-    shell:
-        "python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep}"
+#rule kegg_prep:
+#   input:
+#        kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
+#    params:
+#        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts"),
+#        qualitydir = directory(OUTPUTDIR+"{samplename}/quality_estimate")
+#    output:
+#        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/kegg_data.csv"
+#    conda:
+#        "envs/kegg_quality.yml"
+#    shell:
+#        "python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep}"
 
 # completeness estimate
 rule quality_estimate:
     input:
-        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/kegg_data.csv"
+        #keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/kegg_data.csv"
+        kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
     params:
         keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
     output:
@@ -150,7 +151,7 @@ rule quality_estimate:
     conda:
         "envs/quality.yml"
     shell:
-        "python3 scripts/quality_estimate.py -k {input.keggdataprep} -kc {params.keggcountdir} -o {output.completeness}"
+        "python3 scripts/completeness_estimate.py -kc {params.keggcountdir} -o {output.completeness}"
 
 
 # assign predicted taxonomic classification using CAT

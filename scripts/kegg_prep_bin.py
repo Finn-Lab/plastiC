@@ -29,12 +29,13 @@ def bin_kegg_count_parse(keggcountpath):
 
     missing_kegg_list = [kegg for kegg in training_kegg_id if kegg not in keggoutput_id]
 
-    for kegg in missing_kegg_list:
-        keggoutputspread[kegg] = 0
+    #keggoutputspread = keggoutputspread.reindex(columns=list(missing_kegg_list), fill_value=0)
+    #for kegg in missing_kegg_list:
+    #   keggoutputspread[kegg] = 0
 
-    keggoutputspread_defrag = keggoutputspread.copy()
+    #keggoutputspread_defrag = keggoutputspread.copy()
     
-    bin_kegg_count = keggoutputspread_defrag.reindex(columns=training_kegg_id).reset_index(level=["compholder"])
+    bin_kegg_count = keggoutputspread.reindex(columns=training_kegg_id,fill_value=0).reset_index(level=["compholder"])
 
     return bin_kegg_count
 
