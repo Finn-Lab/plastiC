@@ -130,7 +130,7 @@ rule completeness_estimate:
         kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
     params:
         keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts"),
-        qualitydir = directory(OUTPUTDIR+"{samplename}/quality_estimate/)
+        qualitydir = directory(OUTPUTDIR+"{samplename}/quality_estimate/")
     output:
         dataprep = OUTPUTDIR+"{samplename}/quality_estimate/c_dataprep.csv",
         completeness = OUTPUTDIR+"{samplename}/quality_estimate/quality_estimate.csv"

@@ -15,12 +15,12 @@ outfile=
 keggidlist=
 qualityestimate=
 model=
-while getopts "kc:o:l:q:m:h:" OPTION
+while getopts "k:o:l:q:m:h:" OPTION
 
 do
 
   case ${OPTION} in
-    kc)
+    k)
       keggcountdir=${OPTARG}
       ;;
     o)
