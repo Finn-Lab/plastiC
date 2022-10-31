@@ -39,12 +39,13 @@ if __name__ == "__main__":
     ap.add_argument('-o', '--outfile', required=True, type=str,
                     help='Output file')
     ap.add_argument('-m', '--model', required=True, type=str, help='Model')
-
+    ap.add_argument('-t', '--type', required=True, type=str, help = 'Type of estimate')
     args = ap.parse_args()
 
     completeness_model = pickle.load(open(args.model, "rb"))
-    
+
     filenames = os.listdir(args.keggcountdir)
     X, y = load_data(args.keggdataprep)
     completeness_prediction_df = completeness_estimate(X)
-    completeness_prediction_df.to_csv(args.outfile, header=["id", "completeness"],index=False)
+    colnames = id + args.type
+    completeness_prediction_df.to_csv(args.outfile, header=colnames,index=False)
