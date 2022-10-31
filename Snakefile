@@ -211,4 +211,4 @@ rule summary:
     conda:
         "envs/quality.yml"
     shell:
-        "python3 scripts/summary.py  -comp {input.completeness} -cont {input.contamination} -t {input.taxonomy} -b {params.plastidbindir} -o {output.summary}"
+        "python3 scripts/summary.py  -comp {input.completeness} -mitocont {input.contamination} -t {input.taxonomy} -b {params.plastidbindir} -o {output.summary}"

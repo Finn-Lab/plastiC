@@ -12,12 +12,12 @@ def bin_kegg_count_parse(keggcountpath, keggorder):
     filelist = os.listdir(keggcountpath)
 
     keggoutput_list = []
-
-    if os.path.getsize(keggcountpath + "/" + file) = 0:
-        print("File is empty")
-        continue
-    else:
-        for file in filelist:
+    
+    for file in filelist:
+        if os.path.getsize(keggcountpath + "/" + file) == 0:
+            print("File is empty")
+            continue
+        else:
             keggout = pd.read_csv(keggcountpath + "/" + file, sep = " ", header = None)
             keggout.columns = ["KEGG"]
             keggout["compholder"] = 47
