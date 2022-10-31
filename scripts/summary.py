@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import argparse
 
 def summary_table(completeness, contamination, taxonomy, bins):
     binid = os.listdir(bins)
@@ -8,7 +9,7 @@ def summary_table(completeness, contamination, taxonomy, bins):
     taxonomy = pd.read_csv(taxonomy, sep = "\t")
 
     taxlineage = taxonomy[["# bin","superkingdom", "phylum", "class", "order", "family", "genus"]].set_index("# bin")
-    quality = comp.set_index("id").join(cont.set_index("id"))
+    quality = completeness.set_index("id").join(contamination.set_index("id"))
 
     summary_table = quality.merge(taxlineage, how = 'cross')
     summary_table.insert(loc=0, column='id', value=binid)
@@ -28,4 +29,4 @@ if __name__ == "__main__":
 
     summary = summary_table(args.completeness, args.contamination, args.taxonomy, args.bindir)
 
-    summary.to_csv(args.summary, index=False, header=True)
+    summary.to_csv(args.summaryout, index=False, header=True)
