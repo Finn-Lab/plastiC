@@ -57,8 +57,11 @@ mkdir -p ${prodigaldir}
 mkdir -p ${keggoutdir}
 #mkdir -p ${keggcountdir}
 
-bash scripts/genepred.sh -i ${plastidbindir} -o ${prodigaldir}
+if [ `ls -1 ${plastidbindir} | wc -l | xargs` -gt 0 ];
+then
+  bash scripts/genepred.sh -i ${plastidbindir} -o ${prodigaldir}
 
-bash scripts/diamond_blastp.sh -i ${prodigaldir}/proteins -d ${database} -o ${keggoutdir}
+  bash scripts/diamond_blastp.sh -i ${prodigaldir}/proteins -d ${database} -o ${keggoutdir}
 
-#bash scripts/keggcounter.sh -i ${keggoutdir} -o ${keggcountdir}
+  #bash scripts/keggcounter.sh -i ${keggoutdir} -o ${keggcountdir}
+fi

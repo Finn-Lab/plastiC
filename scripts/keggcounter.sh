@@ -40,14 +40,24 @@ done
 
 mkdir -p ${keggcountdir}
 
-for SAMPLE in ${keggoutdir}/*.csv
+#if [ `ls -1 ${plastidbindir} | wc -l | xargs` -e 0 ];
+#then
+  #touch ${keggcountdir}/noplastid_keggid_counts.txt
+#fi
 
-do
-  #echo ${SAMPLE}
-  sample=`basename ${SAMPLE}`
-  #echo ${sample}
-  sample=${sample%_kegg.csv}
+if [`ls -1 ${keggcountdir}/*.csv | wc -l | xargs` -gt 0];
+then
+  for SAMPLE in ${keggoutdir}/*.csv
 
-  cut -f 2 ${SAMPLE} | cut -f 2 -d '~' > ${keggcountdir}/${sample}_keggid_counts.txt
+  do
+    #echo ${SAMPLE}
+    sample=`basename ${SAMPLE}`
+    #echo ${sample}
+    sample=${sample%_kegg.csv}
 
-done
+    cut -f 2 ${SAMPLE} | cut -f 2 -d '~' > ${keggcountdir}/${sample}_keggid_counts.txt
+
+  done
+else
+  touch ${keggcountdir}/noplastid_keggid_counts.txt
+fi
