@@ -1,5 +1,36 @@
 __default__:
-    mem: 8000
+    mem: 5000
     nCPU: 1
     name: "{rule}"
     output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
+
+reads2assembly:
+    mem: 8000
+    nCPU: 1
+    output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
+    
+metabat_binning:
+    mem: 8000
+    nCPU: 1
+    output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
+
+plastid_source_classification:
+    mem: 8000
+    nCPU: 1
+    output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
+
+diamond_blastp:
+    mem: 8000
+    nCPU: 1
+    output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
+    
+completeness_estimate:
+    mem: 8000
+    nCPU: 1
+    output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
+
+mitocontam_estimate: 
+    mem: 8000
+    nCPU: 1
+    output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
+

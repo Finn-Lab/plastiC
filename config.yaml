@@ -1,11 +1,11 @@
 # Sample identifiers
 # Path to directory containing metagenomic assemblies
 assemblydir:
-    #"/nfs/research/rdf/escameron/lichen/lichen/results/assembly/spades/private/"
-    "/hps/research/finn/escameron/plastcovery/testing/assembly/"
+    "/nfs/research/rdf/escameron/lichen/lichen/results/assembly/spades/private/"
+    #"/hps/research/finn/escameron/plastcovery/testing/assembly/"
 readdir:
-    #"/nfs/research/rdf/escameron/lichen/lichen/results/reads/qc/private/"
-    "/hps/research/finn/escameron/plastcovery/testing/reads/"
+    "/nfs/research/rdf/escameron/lichen/lichen/results/reads/qc/private/"
+    #"/hps/research/finn/escameron/plastcovery/testing/reads/"
 # Specify assembly type: contigs or scaffolds
 assemblytype:
   "scaffolds"
@@ -16,7 +16,7 @@ assemblytype:
 
 # Path to directory to contain output results
 outputdir:
-    "/hps/research/finn/escameron/plastcovery/testdrive/"
+    "/hps/research/finn/escameron/projects/plastcovery_testing/"
 
 # minimum plastid bin content
 min_plastid_content:

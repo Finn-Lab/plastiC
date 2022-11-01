@@ -37,10 +37,10 @@ if not os.path.exists(OUTPUTDIR+"/summary/logs"):
 
 rule all:
     input:
-    	expand(OUTPUTDIR+"{samplename}/binning/metabat_depth.txt", samplename = SAMPLENAMES),
-    	expand(OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv", samplename = SAMPLENAMES),
-        expand(OUTPUTDIR+"{samplename}/quality_estimate/completeness_estimate.csv", samplename = SAMPLENAMES),
-        expand(OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_estimate.csv", samplename = SAMPLENAMES),
+    	#expand(OUTPUTDIR+"{samplename}/binning/metabat_depth.txt", samplename = SAMPLENAMES),
+    	#expand(OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv", samplename = SAMPLENAMES),
+        #expand(OUTPUTDIR+"{samplename}/quality_estimate/completeness_estimate.csv", samplename = SAMPLENAMES),
+        #expand(OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_estimate.csv", samplename = SAMPLENAMES),
         expand(OUTPUTDIR+"summary/{samplename}_plastidinfo.csv", samplename = SAMPLENAMES)
 
 
@@ -54,7 +54,7 @@ rule reads2assembly:
     input:
         forwardreads = READDIR+"{samplename}/{samplename}_1.fastq.gz",
         reversereads = READDIR+"{samplename}/{samplename}_2.fastq.gz",
-        seqs = ASSEMBLYDIR+"{samplename}/"+ASSEMBLYTYPE+".fasta"
+        seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYTYPE+".fasta"
     output:
         bamout = OUTPUTDIR+"{samplename}/mapping/reads2assembly/alignment.bam"
     conda:
@@ -76,7 +76,7 @@ rule jgi_depth:
 # bin using metabat
 rule metabat_binning:
     input:
-        seqs = ASSEMBLYDIR+"{samplename}/"+ASSEMBLYTYPE+".fasta",
+        seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYTYPE+".fasta",
     	jgidepth = OUTPUTDIR+"{samplename}/binning/metabat_depth.txt"
     params:
     	bin_prefix = OUTPUTDIR+"{samplename}/binning/bins/bin"
