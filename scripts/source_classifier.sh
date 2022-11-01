@@ -48,7 +48,7 @@ do
 
 done
 
-if [ `ls -1 ${plastidbindir}/*.csv 2> /dev/null` ];
+if [ `ls -1 ${plastidbindir} | wc -l | xargs` -gt 0 ];
 then
   CAT bins -b ${plastidbindir} -d ${databasedir} -t ${taxonomydir} -o ${outputdir}/out.BAT -s .fa --force
 
