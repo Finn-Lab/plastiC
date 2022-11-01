@@ -19,19 +19,25 @@ def load_data(path):
 # load the completeness model
 
 # predict completeness
-def quality_estimate(X):
-    completeness_prediction = completeness_model.predict(X) # numpy array
-    completeness_prediction_df = pd.DataFrame(completeness_prediction * 100)
-    completeness_prediction_df = completeness_prediction_df.round(decimals = 2)
-    idnames = [file for file in filenames]
-    completeness_prediction_df.insert(loc=0, column='id', value=idnames)
-    #completeness_prediction_df["id"] = filenames[0:-18]
-    #completeness_prediction_df.reindex(columns=["id", "completeness"])
+def quality_estimate(X, bincount):
+    binid = os.listdir(bins)
+    if len(binid) == 0:
+        quality_prediction_df = pd.DataFrame([0], columns=['quality'])
+        quality_prediction_df.insert(loc=0, column='id', value="no_plastid")
+    else:
+        quality_prediction = quality_model.predict(X) # numpy array
+        quality_prediction_df = pd.DataFrame(quality_prediction * 100)
+        quality_prediction_df = quality_prediction_df.round(decimals = 2)
+        idnames = [file for file in filenames]
+        quality_prediction_df.insert(loc=0, column='id', value=idnames)
+        #completeness_prediction_df["id"] = filenames[0:-18]
+        #completeness_prediction_df.reindex(columns=["id", "completeness"])
     return completeness_prediction_df
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
+    ap.add_argument('-b', '--bindir', required=True, type=str, help='Bin directory (check to see if plastid bins exist)')
     ap.add_argument('-k', '--keggdataprep', required=True, type=str,
                     help='KEGG data prep csv')
     ap.add_argument('-kc', '--keggcountdir', required=True, type=str,
@@ -46,7 +52,7 @@ if __name__ == "__main__":
 
     filenames = os.listdir(args.keggcountdir)
     X, y = load_data(args.keggdataprep)
-    quality_prediction_df = quality_estimate(X)
+    quality_prediction_df = quality_estimate(X, args.bindir)
     colnames = ["id"]
     colnames.append(args.type)
     print(colnames)

@@ -7,7 +7,7 @@ def summary_table(completeness, mito_contamination, taxonomy, bins):
 
     if len(binid) == 0:
         binid = "no_plastid"
-        
+
     completeness = pd.read_csv(completeness, sep = ",")
     mito_contamination = pd.read_csv(mito_contamination, sep = ",")
     taxonomy = pd.read_csv(taxonomy, sep = "\t")
@@ -15,7 +15,7 @@ def summary_table(completeness, mito_contamination, taxonomy, bins):
     taxlineage = taxonomy[["# bin","superkingdom", "phylum", "class", "order", "family", "genus"]].set_index("# bin")
     quality = completeness.set_index("id").join(mito_contamination.set_index("id"))
 
-    summary_table = quality.merge(taxlineage, how = 'cross')
+    summary_table = quality.merge(taxlineage, how = 'cross').fillna("N/A")
     summary_table.insert(loc=0, column='id', value=binid)
 
     return summary_table
