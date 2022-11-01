@@ -4,6 +4,10 @@ import argparse
 
 def summary_table(completeness, mito_contamination, taxonomy, bins):
     binid = os.listdir(bins)
+
+    if len(binid) == 0:
+        binid = "no_plastid"
+        
     completeness = pd.read_csv(completeness, sep = ",")
     mito_contamination = pd.read_csv(mito_contamination, sep = ",")
     taxonomy = pd.read_csv(taxonomy, sep = "\t")
