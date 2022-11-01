@@ -1,6 +1,0 @@
-name: quality_estimates
-channels:
-  - anaconda
-dependencies:
-  - numpy
-  - scikitlearn

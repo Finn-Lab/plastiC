@@ -45,7 +45,7 @@ mkdir -p ${keggcountdir}
   #touch ${keggcountdir}/noplastid_keggid_counts.txt
 #fi
 
-if [`ls -1 ${keggcountdir}/*.csv | wc -l | xargs` -gt 0];
+if [ `ls ${keggoutdir}/*.csv 2> /dev/null` ];
 then
   for SAMPLE in ${keggoutdir}/*.csv
 

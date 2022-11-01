@@ -20,7 +20,7 @@ def load_data(path):
 
 # predict completeness
 def quality_estimate(X, bincount):
-    binid = os.listdir(bins)
+    binid = os.listdir(bincount)
     if len(binid) == 0:
         quality_prediction_df = pd.DataFrame([0], columns=['quality'])
         quality_prediction_df.insert(loc=0, column='id', value="no_plastid")
@@ -32,7 +32,7 @@ def quality_estimate(X, bincount):
         quality_prediction_df.insert(loc=0, column='id', value=idnames)
         #completeness_prediction_df["id"] = filenames[0:-18]
         #completeness_prediction_df.reindex(columns=["id", "completeness"])
-    return completeness_prediction_df
+    return quality_prediction_df
 
 
 if __name__ == "__main__":
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     ap.add_argument('-t', '--type', required=True, type=str, help = 'Type of estimate')
     args = ap.parse_args()
 
-    completeness_model = pickle.load(open(args.model, "rb"))
+    quality_model = pickle.load(open(args.model, "rb"))
 
     filenames = os.listdir(args.keggcountdir)
     X, y = load_data(args.keggdataprep)
