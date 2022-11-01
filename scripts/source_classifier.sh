@@ -54,7 +54,7 @@ then
 
   CAT add_names -i ${outputdir}/out.BAT.bin2classification.txt -o ${outputdir}/out.BAT.plastid_source_taxonomy_predictions.txt -t ${taxonomydir} --only_official --exclude_scores
 else
-  echo -e "# bin\tclassification\treason\tlineage\tlineage scores\tsuperkingdom\tphylum\t\class\torder\tfamily\tgenus\tspecies" > ${outputdir}/out.BAT.plastid_source_taxonomy_predictions.txt
+  echo -e "# bin\tclassification\treason\tlineage\tlineage scores\tsuperkingdom\tphylum\tclass\torder\tfamily\tgenus\tspecies" > ${outputdir}/out.BAT.plastid_source_taxonomy_predictions.txt
   bin=`echo -e "noplastid"`
   classification=`echo -e "N/A"`
   reason=`echo -e "N/A"`
