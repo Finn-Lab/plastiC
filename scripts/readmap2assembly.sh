@@ -48,6 +48,12 @@ do
 
 done
 
+echo -e "Generating bwa index..."
 bwa index ${assembly}
+
+echo -e "Mapping reads to assembly..."
 bwa mem -t 16 ${assembly} ${forwardreads} ${reversereads} | samtools sort -o ${bamoutput}
+
 samtools index ${bamoutput}
+
+echo -e "Mapping complete"

@@ -48,5 +48,10 @@ do
   bin=`basename $BIN`
   bin=${bin%.fa}
 
+  echo -e "Generating gene predictions for ${bin}..."
+
   prodigal -a ${outdir}/proteins/${bin}.fa -d ${outdir}/nt_genes/${bin}.fa -i ${BIN} -o ${outdir}/prodigalout/${bin}.out
+
 done
+
+echo -e "Gene predictions complete."

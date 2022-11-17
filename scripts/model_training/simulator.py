@@ -1,11 +1,23 @@
+# import libraries
 import pandas as pd
 import os
 import argparse
 import csv
 import numpy as np
 
-def simulator(keggoutput_spread):
-    percents = np.arange(0.1, 1.05, 0.05).round(2).tolist()
+# subsample the kegg counts for each sample to create simulated plastid genomes
+
+def simulator(keggoutput_spread, minsize = 0, maxsize = 1.05, stepwise = 0.05):
+    '''
+    Subsamples plastid genomes to varying levels of completeness ranging from
+    0% to 100% in increments of 5 (Default)
+    :params keggoutput_spread: KEGG count pandas dataframe.
+    :params minsize: Minimum genome subsampling size (Default: 0)
+    :params maxsize: Maximum genome subsampling size (Default: 1.05 [e.g. complete])
+    :params stepwise: Incremement step size (Default = 0.05)
+    :return: pandas dataframe consisting
+    '''
+    percents = np.arange(minsize, maxsize, stepwise).round(2).tolist()
     subsample_list = []
 
     for value in percents:
@@ -21,6 +33,12 @@ def simulator(keggoutput_spread):
     return simulated
 
 def kegg_model_order(simulated_data, filepath):
+    '''
+    Generate order of KEGG in simulated training dataset for use in preparation
+    of data for testing.
+    :param simulated_data: Simulated data frame (generated from simulator function)
+    :param filepath: Path to write text file with KEGG order to (Path only)
+    '''
     model_kegg_id = simulated_data.columns.tolist()
 
     with open(filepath + "id_list.txt", 'w') as kegglistfile:

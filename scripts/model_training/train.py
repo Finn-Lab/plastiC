@@ -13,6 +13,11 @@ import csv
 import argparse
 
 def load_data(path):
+    '''
+    Load KEGG data from KEGG data preparation for use in regression training.
+    :param path: Path to directory containing KEGG data preparation csv.
+    :return: numpy array
+    '''
     y = []
     X = []
     with open(path) as fin:

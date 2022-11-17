@@ -41,7 +41,7 @@ done
 for i in `cat $accession_list`
 
 do
-
+  echo -e "Downloading reference: ${i}"
   efetch -format fasta_cds_aa -db nucleotide -id $i > ${refdir}/${i}_prots.fasta
 
 done

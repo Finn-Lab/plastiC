@@ -40,24 +40,20 @@ done
 
 mkdir -p ${keggcountdir}
 
-#if [ `ls -1 ${plastidbindir} | wc -l | xargs` -e 0 ];
-#then
-  #touch ${keggcountdir}/noplastid_keggid_counts.txt
-#fi
-
 if [ `ls ${keggoutdir}/*.csv 2> /dev/null` ];
 then
   for SAMPLE in ${keggoutdir}/*.csv
 
   do
-    #echo ${SAMPLE}
     sample=`basename ${SAMPLE}`
-    #echo ${sample}
     sample=${sample%_kegg.csv}
-
+    echo -e "Generating list of present KEGGs for ${sample}..."
     cut -f 2 ${SAMPLE} | cut -f 2 -d '~' > ${keggcountdir}/${sample}_keggid_counts.txt
 
   done
 else
+  echo -e "No KEGG files found."
   touch ${keggcountdir}/noplastid_keggid_counts.txt
 fi
+
+echo -e "Generation of KEGG lists complete."

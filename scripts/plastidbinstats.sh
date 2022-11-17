@@ -8,7 +8,7 @@ Calculate bin statistics on potential plastid bins.
 OPTIONS:
       -i Bin directory [REQUIRED]
       -o Plastid bin directory [REQUIRED]
-      -s Minimum plastid bin size, numeric [REQUIRED]
+      -s Minimum plastid content % of bin, numeric [REQUIRED]
 EOF
 }
 
@@ -43,7 +43,7 @@ do
 
 done
 
-echo "The minimum bin size is ${minbinsize}%"
+echo "The minimum plastid content bin size is ${minbinsize}%"
 mkdir -p ${plastidbindir}/bins
 
 plastidseqid=${plastidbindir}/plastid_bins.tsv
@@ -52,7 +52,7 @@ echo -e "bin_id\ttotal_contig_count\tbinsize_nt\tplastid_contig_count\tplastid_t
 
 binstats=${plastidbindir}/bin_stats.tsv
 
-for BIN in ${bindir}/* 
+for BIN in ${bindir}/*
 
 do
   bin=`basename $BIN`
@@ -68,7 +68,7 @@ do
   plastid_length_percent=`echo "scale=2 ; 100 * ${plastidlength}/${binsize}" | bc`
 
   echo ${plastidpercent}
-  
+
   echo -e "${bin}\t${totalcontig}\t${binsize}\t${plastidcount}\t${plastidlength}\t${plastidpercent}\t${plastid_length_percent}" >> ${plastidbindir}/bin_stats.tsv
 
   #if [ $((plastid_length_percent)) == 0 ] ; then

@@ -6,8 +6,6 @@ usage: $0 options
 Scan bins for plastid sequences and select bins composed of mostly plastids.
 
 OPTIONS:
-      -a Assembly file
-      -m Mapping file
       -b Binning directory
       -t Tiara output directory
 	    -p Plastidbin directory
@@ -21,7 +19,7 @@ tiaradir=
 plastidbindir=
 minbinsize=
 
-while getopts "a:b:t:p:s:h:" OPTION
+while getopts "b:t:p:s:h:" OPTION
 
 do
 
@@ -50,6 +48,7 @@ do
 
 done
 
+echo -e "Searching for plastid sequences in bins..."
 bash scripts/plastidbinscan.sh -i ${tiaradir} -b ${binningdir} -o ${plastidbindir}
-
+echo -e "Calculating bin statistics..."
 bash scripts/plastidbinstats.sh -i ${binningdir} -o ${plastidbindir} -s ${minbinsize}

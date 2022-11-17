@@ -49,6 +49,10 @@ do
   bin=`basename ${BIN}`
   bin=${bin%.fa}
 
+  echo -e "Performing blastp search for ${bin}..."
+
   diamond blastp --outfmt 6 --max-target-seqs 1 -q ${BIN} -o ${outdir}/${bin}_kegg.csv --db ${database} --query-cover 80 --subject-cover 80 --id 30 --evalue 1e-5
 
 done
+
+echo -e "blastp searches completed."

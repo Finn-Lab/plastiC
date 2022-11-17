@@ -6,8 +6,8 @@ usage: $0 options
 Taxonomic classification of plastid bins using CAT
 OPTIONS:
       -i  Plastid bin directory [REQUIRED]
-      -d  Database folder [REQUIRED]
-      -t  Taxonomy folder [REQUIRED]
+      -d  CAT database directory [REQUIRED]
+      -t  CAT taxonomy directory [REQUIRED]
       -o  Output Directory [REQUIRED]
 
 EOF
@@ -50,9 +50,11 @@ done
 
 if [ `ls -1 ${plastidbindir} | wc -l | xargs` -gt 0 ];
 then
+  echo -e "Predicting source classification of plastid bin..."
   CAT bins -b ${plastidbindir} -d ${databasedir} -t ${taxonomydir} -o ${outputdir}/out.BAT -s .fa --force
 
   CAT add_names -i ${outputdir}/out.BAT.bin2classification.txt -o ${outputdir}/out.BAT.plastid_source_taxonomy_predictions.txt -t ${taxonomydir} --only_official --exclude_scores
+  echo -e "Source classification prediction complete."
 else
   echo -e "# bin\tclassification\treason\tlineage\tlineage scores\tsuperkingdom\tphylum\tclass\torder\tfamily\tgenus\tspecies" > ${outputdir}/out.BAT.plastid_source_taxonomy_predictions.txt
   bin=`echo -e "noplastid"`
@@ -68,5 +70,5 @@ else
   genus=`echo -e "N/A"`
   species=`echo -e "N/A"`
   echo -e "${bin}\t${classification}\t${reason}\t${lineage}\t${lineage_scores}\t${superkingdom}\t${phylum}\t${class}\t${order}\t${family}\t${genus}\t${species}" >> ${outputdir}/out.BAT.plastid_source_taxonomy_predictions.txt
-
+  echo -e "No plastids detected."
 fi

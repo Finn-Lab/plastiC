@@ -19,7 +19,6 @@ plastidbindir=
 prodigaldir=
 database=
 keggoutdir=
-#keggcountdir=
 
 while getopts "i:p:d:o:h:" OPTION
 
@@ -38,9 +37,6 @@ do
     o)
       keggoutdir=${OPTARG}
       ;;
-    #c)
-    #  keggcountdir=${OPTARG}
-    #  ;;
     h)
       usage
       exit
@@ -55,13 +51,12 @@ done
 
 mkdir -p ${prodigaldir}
 mkdir -p ${keggoutdir}
-#mkdir -p ${keggcountdir}
 
 if [ `ls -1 ${plastidbindir} | wc -l | xargs` -gt 0 ];
 then
+  echo -e "Preparing to perform genepredictions..."
   bash scripts/genepred.sh -i ${plastidbindir} -o ${prodigaldir}
 
+  echo -e "Preparing to perform blastp search..."
   bash scripts/diamond_blastp.sh -i ${prodigaldir}/proteins -d ${database} -o ${keggoutdir}
-
-  #bash scripts/keggcounter.sh -i ${keggoutdir} -o ${keggcountdir}
 fi

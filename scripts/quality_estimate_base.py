@@ -6,6 +6,11 @@ import csv
 import numpy as np
 
 def load_data(path):
+    '''
+    Load data from KEGG preparation csv.
+    :param path: Path to directory containing KEGG preparation.
+    :return: numpy array.
+    '''
     y = []
     X = []
     with open(path) as fin:
@@ -16,11 +21,16 @@ def load_data(path):
     X = np.array(X)
     return X, y
 
-# load the completeness model
-
-# predict completeness
-def quality_estimate(X, bincount):
-    binid = os.listdir(bincount)
+# predict quality
+def quality_estimate(X, bindir):
+    '''
+    Estimates quality (completeness or contamination depending on provided model)
+    of plastid genomes.
+    :param X: KEGG module completeness generated in load_data function.
+    :param bindir: Bin directory (to check to see if plastid genomes were identified).
+    :return: pandas dataframe of quality estimate in %. 
+    '''
+    binid = os.listdir(bindir)
     if len(binid) == 0:
         quality_prediction_df = pd.DataFrame([0], columns=['quality'])
         quality_prediction_df.insert(loc=0, column='id', value="no_plastid")
@@ -55,5 +65,4 @@ if __name__ == "__main__":
     quality_prediction_df = quality_estimate(X, args.bindir)
     colnames = ["id"]
     colnames.append(args.type)
-    print(colnames)
     quality_prediction_df.to_csv(args.outfile, header=colnames,index=False)
