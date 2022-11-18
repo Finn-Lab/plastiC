@@ -7,17 +7,18 @@ readdir:
     "/nfs/research/rdf/escameron/lichen/lichen/results/reads/qc/private/"
     #"/hps/research/finn/escameron/plastcovery/testing/reads/"
 
-# Specify assembly type: contigs or scaffolds
-assemblytype:
-  "scaffolds"
+# Specify assembly filename (should be identical for each sample)
+assemblyname:
+  "scaffolds.fasta"
 
 # Path to directory to contain output results
 outputdir:
     "/hps/research/finn/escameron/projects/plastcovery_testing/"
 
 # Mapping required
-mapstatus:
+maprequire:
   True
+
 # minimum plastid bin content
 min_plastid_content:
     90

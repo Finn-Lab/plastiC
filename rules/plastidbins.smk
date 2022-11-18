@@ -12,7 +12,7 @@ rule jgi_depth:
 # bin using metabat
 rule metabat_binning:
     input:
-        seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYTYPE+".fasta",
+        seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYNAME,
     	jgidepth = OUTPUTDIR+"{samplename}/binning/metabat_depth.txt"
     params:
     	bin_prefix = OUTPUTDIR+"{samplename}/binning/bins/bin"

@@ -7,14 +7,14 @@ configfile: "config.yaml"
 
 ASSEMBLYDIR = config["assemblydir"]
 #BINDIR = config["bindir"]
-ASSEMBLYTYPE = config["assemblytype"]
+ASSEMBLYNAME = config["assemblyname"]
 OUTPUTDIR = config["outputdir"]
 READDIR = config["readdir"]
 MINPLASTIDCONTENT = config["min_plastid_content"]
 CATDBDIR = config["catdbdir"]
 CATTAXDIR = config["cattaxdir"]
 UNIREFDMND = config["unirefdb"]
-MAPSTATUS = config["mapstatus"]
+MAPREQUIRE = config["maprequire"]
 
 def getsample_names(dir):
     filelist = os.listdir(config["assemblydir"])
@@ -37,7 +37,7 @@ if not os.path.exists(OUTPUTDIR+"/summary/logs"):
 
 include: "rules/tiara.smk"
 
-if MAPSTATUS == False:
+if MAPREQUIRE == True:
     include: "rules/reads2assembly.smk"
 include: "rules/plastidbins.smk"
 include: "rules/kegg.smk"

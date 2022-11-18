@@ -8,6 +8,7 @@ Count KEGGs from kegg output.
 OPTIONS:
       -n Plastid bin (Nucleic acids fasta) [REQUIRED]
       -p Plastid bin proteins (Amino acid fasta) [REQUIRED]
+      -m HMM DB [REQUIRED]
       -o Output directory [REQUIRED]
 EOF
 }
@@ -15,9 +16,10 @@ EOF
 #variables
 plastidnuc=
 plastidprot=
+hmmdb=
 outdir=
 
-while getopts "n:p:o:h:" OPTION
+while getopts "n:p:m:o:h:" OPTION
 
 do
 
@@ -27,6 +29,9 @@ do
       ;;
     p)
       plastidprot=${OPTARG}
+      ;;
+    m)
+      hmmdb=${OPTARG}
       ;;
     o)
       outdir=${OPTARG}
@@ -43,5 +48,33 @@ do
 
 done
 
+mkdir -p ${outdir}/rrna
 
-barrnap --outseq ${outdir}/rrna.fasta ${plastidnuc}
+mkdir -p ${outdir}/rbcl/hmmscan
+hmmdir=${outdir}/rbcl/hmmscan
+
+echo -e "Identifying rRNA genes..."
+for NUCL in ${plastidnuc}/*.fasta
+
+do
+  sample=`basename ${NUCL}`
+  sample=${sample%.fasta}
+
+  barrnap --outseq ${outdir}/${sample}_rrna.fasta ${NUCL}
+done
+
+echo -e "rRNA gene identification finished."
+
+echo -e "Searching for rbcL..."
+
+for PROT in ${plastidprot}/*.fa
+
+do
+
+  prot=`basename ${PROT}`
+  prot=${prot%.fa}
+
+  hmmscan -o ${hmmdir}/${prot}_hmm.out --domtblout ${hmmdir}/${prot}_hmm.domtbl ${hmmdb} ${PROT}
+
+done
+echo -e "Search for rbcL finished."

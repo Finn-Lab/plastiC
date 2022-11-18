@@ -13,7 +13,7 @@ EOF
 }
 
 #variables
-contigs=
+assembly=
 outfile=
 
 while getopts "i:o:h:" OPTION
@@ -22,7 +22,7 @@ do
 
   case ${OPTION} in
     i)
-      contigs=${OPTARG}
+      assembly=${OPTARG}
       ;;
     o)
       outfile=${OPTARG}
@@ -40,7 +40,7 @@ do
 done
 
 echo -e "Generating contig classifications using tiara..."
-tiara -i ${contigs} -o ${outfile} -m 1000 --tf all -t 4 -p 0.65 0.60 --probabilities
+tiara -i ${assembly} -o ${outfile} -m 1000 --tf all -t 4 -p 0.65 0.60 --probabilities
 
 echo -e "Contig classification complete."
 #echo "Plastid classified sequences have been stored in ${plastids}."
