@@ -16,16 +16,16 @@ def filter_fasta(fastainput, seqid):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument('-t', '--hmmdomtbl', required=True, type=str,
-                    help='HMM domain table')
-    ap.add_argument('-b', '--bin', required=True, type = str,help = 'FASTA for plastidbin')
-    ap.add_argument('-o', '--outfile', required=True, type=str,
-                    help='Output FASTA file path and name')
+    ap.add_argument('-b', '--barrnap', required=True, type = str,help = 'FASTA for plastid rRNA from barrnap')
+    ap.add_argument('-o', '--outpath', required=True, type=str,
+                    help='Output FASTA file path')
 
     args = ap.parse_args()
 
-    seqidlist = query_identifiers(args.hmmdomtbl)
-    seqselect_dict = filter_fasta(args.bin, seqidlist)
+    rrnatypes = ['5S', '5.8S', '16S', '23S', '28S']
 
-    with open(args.outfile, "w") as handle:
-        SeqIO.write(seqselect_dict.values(), handle, "fasta") 
+    for rrna in rrnatypes:
+        seqselect_dict = filter_fasta(args.barrnap, rrna)
+
+        with open(args.outpath + rrna, "w") as handle:
+            SeqIO.write(seqselect_dict.values(), handle, "fasta")
