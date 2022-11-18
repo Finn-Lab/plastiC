@@ -1,2 +1,10 @@
 # plastiC
-Workflow for recovery and quality estimation of plastid genomes from metagenomic samples
+A Snakemake workflow for recovery and characterization of plastid genomes from metagenomic datasets.
+
+# Installation
+
+# Databases
+
+# Configuration
+
+# Running 

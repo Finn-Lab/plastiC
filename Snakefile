@@ -137,15 +137,15 @@ rule binprep_completeness:
 	params:
 		keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
 	output:
-		keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/comp_kegg_data.csv"
+		keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/comp_kegg_module_data.csv"
 	conda:
 		"envs/quality.yml"
 	shell:
-		"python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep} -l resources/quality_estimates/training_kegg_id_list.txt"
+		"python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep} -l resources/quality_estimates/kegg_order.txt"
 
 rule completeness_estimate:
     input:
-        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/comp_kegg_data.csv"
+        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/comp_kegg_module_data.csv"
     params:
         keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts"),
         plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins/bins")
@@ -157,31 +157,31 @@ rule completeness_estimate:
         "python3 scripts/quality_estimate_base.py -b {params.plastidbindir} -k {input.keggdataprep} -kc {params.keggcountdir} -o {output.completeness} -m resources/quality_estimates/completeness.model -t completeness"
 
 
-# mitochondrial contamination estimate
-rule binprep_mitocontam:
-	input:
-		kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
-	params:
-		keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
-	output:
-		keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_kegg_data.csv"
-	conda:
-		"envs/quality.yml"
-	shell:
-		"python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep} -l resources/quality_estimates/mitochloro1_id_list.txt"
+# contamination estimate
+#rule binprep_mitocontam:
+#	input:
+#		kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
+#	params:
+#		keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
+#	output:
+#		keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_kegg_data.csv"
+#	conda:
+#		"envs/quality.yml"
+#	shell:
+#		"python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep} -l resources/quality_estimates/mitochloro1_id_list.txt"
 
-rule mitocontam_estimate:
-    input:
-        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_kegg_data.csv"
-    params:
-        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts"),
-        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins/bins")
-    output:
-        completeness = OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_estimate.csv"
-    conda:
-        "envs/quality.yml"
-    shell:
-        "python3 scripts/quality_estimate_base.py -b {params.plastidbindir} -k {input.keggdataprep} -kc {params.keggcountdir} -o {output.completeness} -m resources/quality_estimates/mitochloromodel1_defgbr.model -t mito_contam"
+#rule mitocontam_estimate:
+#    input:
+#        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_kegg_data.csv"
+#    params:
+#        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts"),
+#        plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins/bins")
+#    output:
+#        completeness = OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_estimate.csv"
+#    conda:
+#        "envs/quality.yml"
+#    shell:
+#        "python3 scripts/quality_estimate_base.py -b {params.plastidbindir} -k {input.keggdataprep} -kc {params.keggcountdir} -o {output.completeness} -m resources/quality_estimates/mitochloromodel1_defgbr.model -t mito_contam"
 
 # assign predicted taxonomic classification using CAT
 rule plastid_source_classification:
@@ -199,6 +199,31 @@ rule plastid_source_classification:
         "envs/CAT_classifier.yml"
     shell:
         "bash scripts/source_classifier.sh -i {params.plastidbins} -d {input.catdb} -t {input.cattax} -o {params.cat_outputdir}"
+
+# marker search
+rule marker_search:
+    input:
+
+    params:
+
+    output:
+
+    conda:
+        "envs/markersearch.yml"
+    shell:
+
+# summary marker
+rule summary_markers:
+    input:
+
+    params:
+
+    output:
+
+    conda:
+
+    shell:
+
 
 # summary per sample
 rule summary_per_sample:

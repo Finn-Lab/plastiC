@@ -3,7 +3,7 @@ usage()
 cat << EOF
 usage: $0 options
 
-Map reads to metagenomic assembly
+Map reads to metagenomic assembly. 
 OPTIONS:
       -1 Forward reads [REQUIRED]
       -2 reverse reads [REQUIRED]
