@@ -1,6 +1,0 @@
-name: kegg
-channels:
-  - bioconda
-dependencies:
-  - diamond=2.0.15
-  - prodigal
