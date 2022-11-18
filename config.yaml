@@ -15,6 +15,9 @@ assemblytype:
 outputdir:
     "/hps/research/finn/escameron/projects/plastcovery_testing/"
 
+# Mapping required
+mapstatus:
+  True
 # minimum plastid bin content
 min_plastid_content:
     90
