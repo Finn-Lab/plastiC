@@ -1,0 +1,5 @@
+name: tiara
+channels:
+  - conda-forge
+dependencies:
+  - tiara

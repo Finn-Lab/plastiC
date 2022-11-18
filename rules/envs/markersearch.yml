@@ -1,0 +1,6 @@
+name: hmmer
+channels:
+    - bioconda
+dependencies:
+    - hmmer
+    - barrnap

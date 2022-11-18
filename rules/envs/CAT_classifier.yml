@@ -1,0 +1,5 @@
+name: CAT_classifier
+channels:
+    - bioconda
+dependencies:
+    - cat=5.2.3
