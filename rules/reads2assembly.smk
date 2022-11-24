@@ -3,7 +3,7 @@ rule reads2assembly:
     input:
         forwardreads = READDIR+"{samplename}/{samplename}_1.fastq.gz",
         reversereads = READDIR+"{samplename}/{samplename}_2.fastq.gz",
-        seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYNAME
+        seqs = ASSEMBLYDIR+"{samplename}/"+ASSEMBLYNAME
     output:
         bamout = OUTPUTDIR+"{samplename}/mapping/reads2assembly/alignment.bam"
     conda:

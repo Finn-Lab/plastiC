@@ -2,7 +2,7 @@
 rule plastid_source_classification:
     input:
         kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log",
-        plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv",
+        plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/plastid_bin_stats.csv",
         catdb = CATDBDIR,
         cattax = CATTAXDIR
     params:

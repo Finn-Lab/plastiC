@@ -1,9 +1,12 @@
 rule tiara:
-    input:
-        seqs = ASSEMBLYDIR+"{samplename}/spades_output/"+ASSEMBLYNAME
-    output:
-        tiaraout = OUTPUTDIR+"{samplename}/tiara/tiara.out"
-    conda:
-        "../envs/tiara.yaml"
-    shell:
-        "bash scripts/tiara_classifier.sh -i {input.seqs} -o {output.tiaraout}"
+	input:
+		seqs = ASSEMBLYDIR+"{samplename}/"+ASSEMBLYNAME
+	params:
+		tiaraout = directory(OUTPUTDIR+"{samplename}/tiara")
+	output:
+		#tiaraout = OUTPUTDIR+"{samplename}/tiara/tiara.out",
+		plastidseqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta"
+	conda:
+		"../envs/tiara.yml"
+	shell:
+		"bash scripts/tiara_classifier.sh -i {input.seqs} -o {params.tiaraout}"

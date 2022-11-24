@@ -1,7 +1,7 @@
 # diamond blastp kegg search
 rule diamond_blastp:
     input:
-        plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv",
+        plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/plastid_bin_stats.csv",
         unirefdb = UNIREFDMND
     params:
         plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins/bins"),

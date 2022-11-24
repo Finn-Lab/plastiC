@@ -40,7 +40,9 @@ do
 done
 
 echo -e "Generating contig classifications using tiara..."
-tiara -i ${assembly} -o ${outfile} -m 1000 --tf all -t 4 -p 0.65 0.60 --probabilities
+tiara -i ${assembly} -o ${outdir}/tiara.out -m 1000 --tf all -t 4 -p 0.65 0.60 --probabilities
+
+touch ${outdir}/plastid_scaffolds.fasta
 
 echo -e "Contig classification complete."
 #echo "Plastid classified sequences have been stored in ${plastids}."
