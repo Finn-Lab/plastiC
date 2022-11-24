@@ -1,0 +1,6 @@
+name: tiaratest
+channels:
+    - conda-forge
+dependencies:
+    - python=3.7
+    - tiara

@@ -53,7 +53,7 @@ rule all:
         #expand(OUTPUTDIR+"{samplename}/quality_estimate/completeness_estimate.csv", samplename = SAMPLENAMES),
         #expand(OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_estimate.csv", samplename = SAMPLENAMES),
         expand(OUTPUTDIR+"{samplename}/plastidinfo.csv", samplename = SAMPLENAMES),
-        expand(OUTPUTDIR+"{samplename}/markersearch/search.out", samplename = SAMPLENAMES)s
+        expand(OUTPUTDIR+"{samplename}/markersearch/search.out", samplename = SAMPLENAMES)
 
     	#expand(OUTPUTDIR+"{samplename}/quality_estimate/quality_estimate.csv", samplename = SAMPLENAMES)
 

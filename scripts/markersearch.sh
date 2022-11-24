@@ -54,7 +54,9 @@ mkdir -p ${outdir}/rbcl/hmmscan
 hmmdir=${outdir}/rbcl/hmmscan
 
 echo -e "Identifying rRNA genes..."
-for NUCL in ${plastidnuc}/*.fasta
+echo -e ${plastidnuc}
+
+for NUCL in ${plastidnuc}/*.fa
 
 do
   sample=`basename ${NUCL}`
@@ -66,6 +68,8 @@ done
 echo -e "rRNA gene identification finished."
 
 echo -e "Searching for rbcL..."
+
+ls ${plastidprot}
 
 for PROT in ${plastidprot}/*.fa
 
