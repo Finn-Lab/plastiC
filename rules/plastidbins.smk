@@ -32,7 +32,7 @@ rule fetch_plastid_bins:
     params:
         bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
         plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins"),
-		plastidbinfiles = directory(OUTPUTDIR+"{samplename}/plastidbins/bins")
+		plastidbinfiles = directory(OUTPUTDIR+"{samplename}/plastidbins/bins/"),
 		#minplastidbinsize = lambda wc: str(MINPLASTIDCONTENT)
     output:
         plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/plastid_bin_stats.csv"
