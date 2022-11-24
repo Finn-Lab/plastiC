@@ -7,6 +7,6 @@ rule reads2assembly:
     output:
         bamout = OUTPUTDIR+"{samplename}/mapping/reads2assembly/alignment.bam"
     conda:
-        "envs/mapping.yml"
+        "../envs/plastiC.yml"
     shell:
         "bash scripts/readmap2assembly.sh -1 {input.forwardreads} -2 {input.reversereads} -a {input.seqs} -o {output.bamout}"

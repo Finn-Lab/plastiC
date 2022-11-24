@@ -11,7 +11,7 @@ rule diamond_blastp:
     output:
         kegg_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_out.log"
     conda:
-        "envs/kegg.yml"
+        "../envs/plastiC.yml"
     shell:
         "bash scripts/kegg_output.sh -i {params.plastidbindir} -p {params.prodigaldir} -d {input.unirefdb} -o {params.keggoutdir} > {output.kegg_log}"
 

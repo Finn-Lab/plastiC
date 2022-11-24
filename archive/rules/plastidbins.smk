@@ -5,7 +5,7 @@ rule jgi_depth:
 	output:
 		jgidepth = OUTPUTDIR+"{samplename}/binning/metabat_depth.txt"
 	conda:
-		"../envs/plastiC.yml"
+		"envs/binner.yml"
 	shell:
 		"jgi_summarize_bam_contig_depths --outputDepth {output.jgidepth} {input.bamout}"
 
@@ -20,7 +20,7 @@ rule metabat_binning:
         #unbinned_seqs_holder = OUTPUTDIR+"{samplename}/binning/bins/bin.unbinned.fa",
         metabat2_log = OUTPUTDIR+"{samplename}/binning/metabat2.log"
     conda:
-        "../envs/plastiC.yml"
+        "envs/binner.yml"
     shell:
         "metabat2 -i {input.seqs} -a {input.jgidepth} -o {params.bin_prefix} -s 50000 --unbinned > {output.metabat2_log}"
 
@@ -32,11 +32,8 @@ rule fetch_plastid_bins:
     params:
         bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
         plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins"),
-		plastidbinfiles = directory(OUTPUTDIR+"{samplename}/plastidbins/bins")
 		#minplastidbinsize = lambda wc: str(MINPLASTIDCONTENT)
     output:
-        plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/plastid_bin_stats.csv"
-	conda:
-		"../envs/plastiC.yml"
+        plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv"
     shell:
-		"python3 ../scripts/plastidbinner.py -b {params.bindir} -p {input.plastid_seqs} -o {params.plastidbindir} -b 90 -d {params.plastidbinfiles}"
+        "bash scripts/plastidbinner.sh -b {params.bindir} -t {input.plastid_seqs} -p {params.plastidbindir} -s 90"

@@ -4,7 +4,6 @@ channels:
   - conda-forge
   - anaconda
 dependencies:
-  #- python=3.8
   - metabat2
   - cat
   - diamond
@@ -13,8 +12,6 @@ dependencies:
   - samtools
   - hmmer
   - barrnap
-  #- tiara
   - numpy=1.20
-  #- openssl=1.1.1
   - pandas=1.4.2
   - scikit-learn=1.1.1

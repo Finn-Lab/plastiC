@@ -9,6 +9,6 @@ rule marker_search:
     output:
         markersearchlog = OUTPUTDIR+"{samplename}/markersearch/search.out"
     conda:
-        "envs/markersearch.yml"
+        "../envs/plastiC.yml"
     shell:
         "bash scripts/markersearch.sh -n {params.nucldir} -p {params.protdir} -m resources/markergene_scan/rbcL/ref_rbcL_hmm -o {params.markerdir} > {output.markersearchlog}"

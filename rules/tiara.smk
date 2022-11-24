@@ -4,6 +4,6 @@ rule tiara:
     output:
         tiaraout = OUTPUTDIR+"{samplename}/tiara/tiara.out"
     conda:
-        "envs/tiara.yaml"
+        "../envs/tiara.yaml"
     shell:
         "bash scripts/tiara_classifier.sh -i {input.seqs} -o {output.tiaraout}"
