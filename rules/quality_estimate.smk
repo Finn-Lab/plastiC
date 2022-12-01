@@ -9,7 +9,7 @@ rule binprep_completeness:
 	conda:
 		"../envs/plastiC.yml"
 	shell:
-		"python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep} -l resources/quality_estimates/training_kegg_id_list.txt"
+		"python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep} -l resources/quality_estimates/kegg_order.txt"
 
 rule completeness_estimate:
     input:

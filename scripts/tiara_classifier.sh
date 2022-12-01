@@ -14,7 +14,7 @@ EOF
 
 #variables
 assembly=
-outfile=
+outdir=
 
 while getopts "i:o:h:" OPTION
 
@@ -25,7 +25,7 @@ do
       assembly=${OPTARG}
       ;;
     o)
-      outfile=${OPTARG}
+      outdir=${OPTARG}
       ;;
     h)
       usage

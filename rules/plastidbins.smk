@@ -30,8 +30,8 @@ rule fetch_plastid_bins:
 		plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta",
 		metabat2_log = OUTPUTDIR+"{samplename}/binning/metabat2.log"
 	params:
-		bindir = directory(OUTPUTDIR+"{samplename}/binning/bins"),
-		plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins"),
+		bindir = directory(OUTPUTDIR+"{samplename}/binning/bins/"),
+		plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins/"),
 		#plastidbinfiles = directory(OUTPUTDIR+"{samplename}/plastidbins/bins/"),
 		#minplastidbinsize = lambda wc: str(MINPLASTIDCONTENT)
 	output:
@@ -39,4 +39,4 @@ rule fetch_plastid_bins:
 	conda:
 		"../envs/plastiC.yml"
 	shell:
-		"python3 ../scripts/plastidbinner.py -b {params.bindir} -p {input.plastid_seqs} -o {params.plastidbindir} -d {params.plastidbindir}"
+		"python3 scripts/plastidbinner.py -b {params.bindir} -p {input.plastid_seqs} -o {params.plastidbindir} -d {params.plastidbindir}"

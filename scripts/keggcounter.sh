@@ -40,7 +40,7 @@ done
 
 mkdir -p ${keggcountdir}
 
-if [ `ls ${keggoutdir}/*.csv 2> /dev/null` ];
+if [[ `ls ${keggoutdir}/*.csv 2> /dev/null` ]];
 then
   for SAMPLE in ${keggoutdir}/*.csv
 

@@ -56,7 +56,7 @@ def bin_kegg_count_parse(keggcountpath, keggorder):
     return bin_kegg_count
 
 with open("resources/quality_estimates/kegg_modules.json") as filein:
-    modules = json.load(filein)
+    modules_contents = json.load(filein)
 
 def module_coverage(keggprep):
     '''
@@ -66,7 +66,7 @@ def module_coverage(keggprep):
     :param keggprep: KEGG preparation dataframe generated from bin_kegg_count_parse
     :return: pandas dataframe of KEGG module compelteness (rows = sample, columns = modules)
     '''
-    boolkegg = keggprep.reset_index("bin_id").set_index(["bin_id", "completeness"]).astype(bool).astype(int)
+    boolkegg = keggprep.reset_index("bin_id").set_index(["bin_id", "compholder"]).astype(bool).astype(int)
 
     modules = list(modules_contents.keys())
     kegg_module_values = list(modules_contents.values())
@@ -81,7 +81,7 @@ def module_coverage(keggprep):
     for module, members  in modules_contents.items(): # keggs is your dictionary
         module_df[module] = module_prep[members].sum(axis=1)/len(members)
 
-    module_df = module_df.reset_index("completeness")
+    module_df = module_df.reset_index("compholder")
     return module_df
 
 if __name__ == "__main__":

@@ -30,7 +30,9 @@ def quality_estimate(X, bindir):
     :param bindir: Bin directory (to check to see if plastid genomes were identified).
     :return: pandas dataframe of quality estimate in %. 
     '''
-    binid = os.listdir(bindir)
+    binslist = os.listdir(bindir)
+    binid = [item for item in binslist if ".fai" not in item]
+    
     if len(binid) == 0:
         quality_prediction_df = pd.DataFrame([0], columns=['quality'])
         quality_prediction_df.insert(loc=0, column='id', value="no_plastid")
@@ -38,7 +40,7 @@ def quality_estimate(X, bindir):
         quality_prediction = quality_model.predict(X) # numpy array
         quality_prediction_df = pd.DataFrame(quality_prediction * 100)
         quality_prediction_df = quality_prediction_df.round(decimals = 2)
-        idnames = [file for file in filenames]
+        idnames = [file for file in binid]
         quality_prediction_df.insert(loc=0, column='id', value=idnames)
         #completeness_prediction_df["id"] = filenames[0:-18]
         #completeness_prediction_df.reindex(columns=["id", "completeness"])

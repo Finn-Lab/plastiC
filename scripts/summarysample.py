@@ -13,8 +13,10 @@ def summary_table(completeness, taxonomy, bins):
     :return: pandas dataframe summarizing plastid genome characterisitcs.
     '''
 
-    binid = os.listdir(bins)
+    binlist = os.listdir(bins)
 
+    binid = [item for item in binlist if ".fai" not in item]
+    
     if len(binid) == 0:
         binid = "no_plastid"
 
@@ -23,13 +25,20 @@ def summary_table(completeness, taxonomy, bins):
     taxonomy = pd.read_csv(taxonomy, sep = "\t")
 
     taxlineage = taxonomy[["# bin","superkingdom", "phylum", "class", "order", "family", "genus"]].set_index("# bin")
+    taxlineage["binid"] = taxlineage.index
     #quality = completeness.set_index("id").join(contamination.set_index("id"))
     quality = completeness.set_index("id")
+    quality["binid"] = quality.index
+    
+    #print(taxlineage)
+    #print(quality)
 
-    summary_table = quality.merge(taxlineage, how = 'cross')
-
+    summary_table = quality.merge(taxlineage, how = 'inner')
+    
     summary_table.insert(loc=0, column='id', value=binid)
 
+    del summary_table["binid"]
+    
     return summary_table
 
 if __name__ == "__main__":
