@@ -16,16 +16,22 @@ def filter_fasta(fastainput, seqid):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument('-b', '--barrnap', required=True, type = str,help = 'FASTA for plastid rRNA from barrnap')
-    ap.add_argument('-o', '--outpath', required=True, type=str,
-                    help='Output FASTA file path')
+    ap.add_argument('-i', '--rrnadir', required=True, type = str,help = 'rRNA directory')
+    #ap.add_argument('-o', '--outpath', required=True, type=str,
+    #                help='Output FASTA file path')
 
     args = ap.parse_args()
 
-    rrnatypes = ['5S', '5.8S', '16S', '23S', '28S']
+    filelist = os.listdir(args.rrnadir)
 
-    for rrna in rrnatypes:
-        seqselect_dict = filter_fasta(args.barrnap, rrna)
+    for bin in filelist:
+        binid = bin[:len(bin)-13]
+        rrnatypes = ['5S', '5.8S', '16S', '23S', '28S']
 
-        with open(args.outpath + rrna, "w") as handle:
-            SeqIO.write(seqselect_dict.values(), handle, "fasta")
+        for rrna in rrnatypes:
+            seqselect_dict = filter_fasta(args.barrnap, rrna)
+
+            fastaout = args.rrnadir + "/" + binid + "_" + rrna + ".fasta"
+
+            with open(fastaout, "w") as handle:
+                SeqIO.write(seqselect_dict.values(), handle, "fasta")

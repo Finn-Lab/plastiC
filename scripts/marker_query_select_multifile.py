@@ -31,16 +31,26 @@ def filter_fasta(fastainput, seqid):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument('-t', '--hmmdomtbl', required=True, type=str,
-                    help='HMM domain table')
-    ap.add_argument('-b', '--bin', required=True, type = str,help = 'FASTA for plastidbin')
-    ap.add_argument('-o', '--outfile', required=True, type=str,
-                    help='Output FASTA file path and name')
+    ap.add_argument('-i', '--hmminputdir', required=True, type=str,
+                    help='HMMscan directory')
+    ap.add_argument('-b', '--bindir', required=True, type = str,help = 'Bin directory')
+    ap.add_argument('-o', '--outpath', required=True, type=str,
+                    help='Output FASTA file path')
 
     args = ap.parse_args()
-    
-    seqidlist = query_identifiers(args.hmmdomtbl)
-    seqselect_dict = filter_fasta(args.bin, seqidlist)
 
-    with open(args.outfile, "w") as handle:
-        SeqIO.write(seqselect_dict.values(), handle, "fasta")
+    filelist = os.listdir(args.hmminputdir)
+
+    hmmdomtbl = [item for item in filelist if ".out" not in item]
+
+    for bin in hmmdomtbl:
+        binid = bin[:len(bin)-13]
+        binfasta = args.bindir + "/" + binid + ".fa"
+
+        seqidlist = query_identifiers(bin)
+        seqselect_dict = filter_fasta(binfasta, seqidlist)
+
+        fastaout = args.outpath + "/" + binid + ".fasta"
+
+        with open(fastaout, "w") as handle:
+            SeqIO.write(seqselect_dict.values(), handle, "fasta")

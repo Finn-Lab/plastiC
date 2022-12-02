@@ -49,6 +49,7 @@ do
 done
 
 mkdir -p ${outdir}/rrna
+rrnadir=${outdir}/rrna
 
 mkdir -p ${outdir}/rbcl/hmmscan
 hmmdir=${outdir}/rbcl/hmmscan
@@ -59,10 +60,12 @@ echo -e ${plastidnuc}
 for NUCL in ${plastidnuc}/*.fa
 
 do
+  
   sample=`basename ${NUCL}`
   sample=${sample%.fasta}
 
-  barrnap --outseq ${outdir}/${sample}_rrna.fasta ${NUCL}
+  barrnap --outseq ${rrnadir}/${sample}_rrna.fasta ${NUCL}
+
 done
 
 echo -e "rRNA gene identification finished."
