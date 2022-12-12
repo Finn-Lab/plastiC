@@ -1,10 +1,10 @@
 # marker search
 rule marker_search:
     input:
-        kegg_log = OUTPUTDIR+"{samplename}/working/quality_estimate/kegg_out.log"
+        kegg_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_out.log"
     params:
         nucldir = directory(OUTPUTDIR+"{samplename}/plastids/bins"),
-        protdir = directory(OUTPUTDIR+"{samplename}/working/prodigal/proteins"),
+        protdir = directory(OUTPUTDIR+"{samplename}/prodigal/proteins"),
         markerdir = directory(OUTPUTDIR+"{samplename}/plastids/markersearch")
     output:
         markersearchlog = OUTPUTDIR+"{samplename}/plastids/markersearch/search.out"

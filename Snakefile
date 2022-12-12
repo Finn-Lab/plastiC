@@ -28,6 +28,8 @@ def getsample_names(dir):
 
 SAMPLENAMES = getsample_names(config["assemblydir"])
 
+print(SAMPLENAMES)
+
 for sample in SAMPLENAMES:
     if not os.path.exists(OUTPUTDIR+sample+"/logs"):
         os.makedirs(OUTPUTDIR+sample+"/logs")
@@ -51,4 +53,4 @@ rule all:
     input:
         expand(OUTPUTDIR+"{samplename}/plastids/plastidinfo.csv", samplename = SAMPLENAMES),
         expand(OUTPUTDIR+"{samplename}/plastids/markersearch/rRNA_fasta.out", samplename = SAMPLENAMES),
-        expand(OUTPUTDIR+"{samplename}/plastids/rbcL_fasta.out", samplename = SAMPLENAMES)
+        expand(OUTPUTDIR+"{samplename}/plastids/markersearch/rbcL_fasta.out", samplename = SAMPLENAMES)

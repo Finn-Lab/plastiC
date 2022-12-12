@@ -13,12 +13,12 @@ rule jgi_depth:
 rule metabat_binning:
 	input:
 		seqs = ASSEMBLYDIR+"{samplename}/"+ASSEMBLYNAME,
-		jgidepth = OUTPUTDIR+"{samplename}/working/binning/metabat_depth.txt"
+		jgidepth = OUTPUTDIR+"{samplename}/binning/metabat_depth.txt"
 	params:
-		bin_prefix = OUTPUTDIR+"{samplename}/working/binning/bins/bin"
+		bin_prefix = OUTPUTDIR+"{samplename}/binning/bins/bin"
 	output:
 		#unbinned_seqs_holder = OUTPUTDIR+"{samplename}/binning/bins/bin.unbinned.fa",
-		metabat2_log = OUTPUTDIR+"{samplename}/working/binning/metabat2.log"
+		metabat2_log = OUTPUTDIR+"{samplename}/binning/metabat2.log"
 	conda:
 		"../envs/plastiC.yml"
 	shell:
@@ -27,10 +27,10 @@ rule metabat_binning:
 # scan bins for plastid reads and select ones that are likely plastid based on seq lengths
 rule fetch_plastid_bins:
 	input:
-		plastid_seqs = OUTPUTDIR+"{samplename}/working/tiara/plastid_scaffolds.fasta",
-		metabat2_log = OUTPUTDIR+"{samplename}/working/binning/metabat2.log"
+		plastid_seqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta",
+		metabat2_log = OUTPUTDIR+"{samplename}/binning/metabat2.log"
 	params:
-		bindir = directory(OUTPUTDIR+"{samplename}/working/binning/bins/"),
+		bindir = directory(OUTPUTDIR+"{samplename}/binning/bins/"),
 		plastidbindir = directory(OUTPUTDIR+"{samplename}/plastids/"),
 		#minplastidbinsize = lambda wc: str(MINPLASTIDCONTENT)
 	output:
