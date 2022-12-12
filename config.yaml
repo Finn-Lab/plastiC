@@ -1,19 +1,22 @@
 # Path to directory containing metagenomic assemblies
 assemblydir:
-    #"/nfs/research/rdf/escameron/lichen/lichen/results/assembly/spades/private/"
-    "/hps/research/finn/escameron/plastiC/testing/assembly/"
+    #"/nfs/research/rdf/escameron/lichen/lichen/results/assembly/spades/public/"
+    #"/hps/research/finn/escameron/plastiC/testing/assembly/"
+    "tara_scaffolds/"
 
 readdir:
-    #"/nfs/research/rdf/escameron/lichen/lichen/results/reads/qc/private/"
-    "/hps/research/finn/escameron/plastiC/testing/reads/"
+    #"/nfs/research/rdf/escameron/lichen/lichen/results/reads/qc/public/"
+    #"/hps/research/finn/escameron/plastiC/testing/reads/"
+    "tara_reads/"
 
 # Specify assembly filename (should be identical for each sample)
 assemblyname:
+  #"spades_output/scaffolds.fasta"
   "scaffolds.fasta"
 
 # Path to directory to contain output results
 outputdir:
-    "/hps/research/finn/escameron/plastiC/testdrive/"
+    "/hps/research/finn/escameron/plastiC/testdrive_tara/"
 
 # Mapping required
 maprequire:

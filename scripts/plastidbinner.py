@@ -89,5 +89,7 @@ if __name__ == "__main__":
 
     filteredplastids = list(plastidbin_dataframe[plastidbin_dataframe["plastid_nt_percent"] >= args.binsize]["bin_id"])
 
+    #plastidbindir = os.mkdir(args.plastidbindir)
+    
     for bin in filteredplastids:
         shutil.copy(args.binpath + bin, args.plastidbindir)

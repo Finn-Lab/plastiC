@@ -5,7 +5,7 @@ __default__:
     output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
 
 reads2assembly:
-    mem: 8000
+    mem: 10000
     nCPU: 1
     output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
     

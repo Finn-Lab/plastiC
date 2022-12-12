@@ -31,12 +31,16 @@ rule fetch_plastid_bins:
 		metabat2_log = OUTPUTDIR+"{samplename}/binning/metabat2.log"
 	params:
 		bindir = directory(OUTPUTDIR+"{samplename}/binning/bins/"),
+		#outdir = directory(OUTPUTDIR+"{samplename}/summary/"),
 		plastidbindir = directory(OUTPUTDIR+"{samplename}/plastidbins/"),
-		#plastidbinfiles = directory(OUTPUTDIR+"{samplename}/plastidbins/bins/"),
 		#minplastidbinsize = lambda wc: str(MINPLASTIDCONTENT)
 	output:
 		plastidbinstats = OUTPUTDIR+"{samplename}/plastidbins/plastid_bin_stats.csv"
 	conda:
 		"../envs/plastiC.yml"
 	shell:
-		"python3 scripts/plastidbinner.py -b {params.bindir} -p {input.plastid_seqs} -o {params.plastidbindir} -d {params.plastidbindir}"
+		"""
+		python3 scripts/plastidbinner.py -b {params.bindir} -p {input.plastid_seqs} -o {params.plastidbindir} -d {params.plastidbindir} 
+		mkdir -p {params.plastidbindir}/bins
+		mv {params.plastidbindir}/*.fa {params.plastidbindir}/bins
+		"""

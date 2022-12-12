@@ -52,8 +52,9 @@ rule all:
     	#expand(OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv", samplename = SAMPLENAMES),
         #expand(OUTPUTDIR+"{samplename}/quality_estimate/completeness_estimate.csv", samplename = SAMPLENAMES),
         #expand(OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_estimate.csv", samplename = SAMPLENAMES),
-        expand(OUTPUTDIR+"{samplename}/plastidinfo.csv", samplename = SAMPLENAMES),
-        expand(OUTPUTDIR+"{samplename}/markersearch/search.out", samplename = SAMPLENAMES)
+        expand(OUTPUTDIR+"{samplename}/summary/plastidinfo.csv", samplename = SAMPLENAMES),
+        expand(OUTPUTDIR+"{samplename}/markersearch/rRNA_fasta.out", samplename = SAMPLENAMES),
+        expand(OUTPUTDIR+"{samplename}/markersearch/rbcL_fasta.out", samplename = SAMPLENAMES)
 
     	#expand(OUTPUTDIR+"{samplename}/quality_estimate/quality_estimate.csv", samplename = SAMPLENAMES)
 

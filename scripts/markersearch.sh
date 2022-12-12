@@ -51,8 +51,10 @@ done
 mkdir -p ${outdir}/rrna
 rrnadir=${outdir}/rrna
 
-mkdir -p ${outdir}/rbcl/hmmscan
-hmmdir=${outdir}/rbcl/hmmscan
+mkdir -p ${outdir}/rbcL/fasta 
+
+mkdir -p ${outdir}/rbcL/hmmscan
+hmmdir=${outdir}/rbcL/hmmscan
 
 echo -e "Identifying rRNA genes..."
 echo -e ${plastidnuc}

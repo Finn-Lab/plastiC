@@ -23,7 +23,7 @@ rule marker_fasta:
     output:
         marker_fasta = OUTPUTDIR+"{samplename}/markersearch/rbcL_fasta.out"
     conda:
-        "../envs/plasticC.yml"
+        "../envs/plastiC.yml"
     shell:
         "python3 scripts/marker_query_select_multifile.py -i {params.hmmscandir} -b {params.bindir} -o {params.fastadir} > {output.marker_fasta}"
 
