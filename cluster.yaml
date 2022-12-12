@@ -8,7 +8,7 @@ reads2assembly:
     mem: 10000
     nCPU: 1
     output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
-    
+
 metabat_binning:
     mem: 8000
     nCPU: 1
@@ -23,14 +23,8 @@ diamond_blastp:
     mem: 8000
     nCPU: 1
     output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
-    
+
 completeness_estimate:
     mem: 8000
     nCPU: 1
     output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
-
-mitocontam_estimate: 
-    mem: 8000
-    nCPU: 1
-    output: "{OUTPUTDIR}/{wildcards.samplename}/logs/{rule}.log"
-

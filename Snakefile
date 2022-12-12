@@ -39,6 +39,7 @@ include: "rules/tiara.smk"
 
 if MAPREQUIRE == True:
     include: "rules/reads2assembly.smk"
+    
 include: "rules/plastidbins.smk"
 include: "rules/kegg.smk"
 include: "rules/quality_estimate.smk"
@@ -48,15 +49,6 @@ include: "rules/samplesummary.smk"
 
 rule all:
     input:
-    	#expand(OUTPUTDIR+"{samplename}/binning/metabat_depth.txt", samplename = SAMPLENAMES),
-    	#expand(OUTPUTDIR+"{samplename}/plastidbins/bin_stats.tsv", samplename = SAMPLENAMES),
-        #expand(OUTPUTDIR+"{samplename}/quality_estimate/completeness_estimate.csv", samplename = SAMPLENAMES),
-        #expand(OUTPUTDIR+"{samplename}/quality_estimate/mitocontam_estimate.csv", samplename = SAMPLENAMES),
         expand(OUTPUTDIR+"{samplename}/summary/plastidinfo.csv", samplename = SAMPLENAMES),
         expand(OUTPUTDIR+"{samplename}/markersearch/rRNA_fasta.out", samplename = SAMPLENAMES),
         expand(OUTPUTDIR+"{samplename}/markersearch/rbcL_fasta.out", samplename = SAMPLENAMES)
-
-    	#expand(OUTPUTDIR+"{samplename}/quality_estimate/quality_estimate.csv", samplename = SAMPLENAMES)
-
-        #expand(OUTPUTDIR+"{samplename}/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.txt", samplename = SAMPLENAMES)
-		#expand(OUTPUTDIR+"{samplename}/quality_estimate/diamond.log", samplename = SAMPLENAMES)
