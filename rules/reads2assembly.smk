@@ -5,7 +5,7 @@ rule reads2assembly:
         reversereads = READDIR+"{samplename}/{samplename}_2.fastq.gz",
         seqs = ASSEMBLYDIR+"{samplename}/"+ASSEMBLYNAME
     output:
-        bamout = OUTPUTDIR+"{samplename}/mapping/reads2assembly/alignment.bam"
+        bamout = OUTPUTDIR+"{samplename}/working/mapping/reads2assembly/alignment.bam"
     conda:
         "../envs/plastiC.yml"
     shell:

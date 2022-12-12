@@ -1,13 +1,13 @@
 # marker search
 rule marker_search:
     input:
-        kegg_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_out.log"
+        kegg_log = OUTPUTDIR+"{samplename}/working/quality_estimate/kegg_out.log"
     params:
-        nucldir = directory(OUTPUTDIR+"{samplename}/plastidbins/bins"),
-        protdir = directory(OUTPUTDIR+"{samplename}/prodigal/proteins"),
-        markerdir = directory(OUTPUTDIR+"{samplename}/markersearch")
+        nucldir = directory(OUTPUTDIR+"{samplename}/plastids/bins"),
+        protdir = directory(OUTPUTDIR+"{samplename}/working/prodigal/proteins"),
+        markerdir = directory(OUTPUTDIR+"{samplename}/plastids/markersearch")
     output:
-        markersearchlog = OUTPUTDIR+"{samplename}/markersearch/search.out"
+        markersearchlog = OUTPUTDIR+"{samplename}/plastids/markersearch/search.out"
     conda:
         "../envs/plastiC.yml"
     shell:
@@ -15,13 +15,13 @@ rule marker_search:
 
 rule marker_fasta:
     input:
-        markersearchlog = OUTPUTDIR+"{samplename}/markersearch/search.out",
+        markersearchlog = OUTPUTDIR+"{samplename}/plastids/markersearch/search.out",
     params:
-        bindir = directory(OUTPUTDIR+"{samplename}/plastidbins/bins"),
-        hmmscandir = directory(OUTPUTDIR+"{samplename}/markersearch/rbcL/hmmscan"),
-        fastadir = directory(OUTPUTDIR)+"{samplename}/markersearch/rbcL/fasta"
+        bindir = directory(OUTPUTDIR+"{samplename}/plastids/bins"),
+        hmmscandir = directory(OUTPUTDIR+"{samplename}/plastids/markersearch/rbcL/hmmscan"),
+        fastadir = directory(OUTPUTDIR)+"{samplename}/plastids/markersearch/rbcL/fasta"
     output:
-        marker_fasta = OUTPUTDIR+"{samplename}/markersearch/rbcL_fasta.out"
+        marker_fasta = OUTPUTDIR+"{samplename}/plastids/markersearch/rbcL_fasta.out"
     conda:
         "../envs/plastiC.yml"
     shell:
@@ -29,11 +29,11 @@ rule marker_fasta:
 
 rule rrna_fasta:
     input:
-        markersearchlog = OUTPUTDIR+"{samplename}/markersearch/search.out"
+        markersearchlog = OUTPUTDIR+"{samplename}/plastids/markersearch/search.out"
     params:
-        rrnadir = directory(OUTPUTDIR+"{samplename}/markersearch/rrna")
+        rrnadir = directory(OUTPUTDIR+"{samplename}/plastids/markersearch/rrna")
     output:
-        rrna_fasta = OUTPUTDIR+"{samplename}/markersearch/rRNA_fasta.out"
+        rrna_fasta = OUTPUTDIR+"{samplename}/plastids/markersearch/rRNA_fasta.out"
     conda:
         "../envs/plastiC.yml"
     shell:

@@ -32,14 +32,14 @@ for sample in SAMPLENAMES:
     if not os.path.exists(OUTPUTDIR+sample+"/logs"):
         os.makedirs(OUTPUTDIR+sample+"/logs")
 
-if not os.path.exists(OUTPUTDIR+"/summary/logs"):
-    os.makedirs(OUTPUTDIR+"/summary/logs")
-
+    if not os.path.exists(OUTPUTDIR+sample+"/working"):
+        os.makedirs(OUTPUTDIR+sample+"/working")
+        
 include: "rules/tiara.smk"
 
 if MAPREQUIRE == True:
     include: "rules/reads2assembly.smk"
-    
+
 include: "rules/plastidbins.smk"
 include: "rules/kegg.smk"
 include: "rules/quality_estimate.smk"
@@ -49,6 +49,6 @@ include: "rules/samplesummary.smk"
 
 rule all:
     input:
-        expand(OUTPUTDIR+"{samplename}/summary/plastidinfo.csv", samplename = SAMPLENAMES),
-        expand(OUTPUTDIR+"{samplename}/markersearch/rRNA_fasta.out", samplename = SAMPLENAMES),
-        expand(OUTPUTDIR+"{samplename}/markersearch/rbcL_fasta.out", samplename = SAMPLENAMES)
+        expand(OUTPUTDIR+"{samplename}/plastids/plastidinfo.csv", samplename = SAMPLENAMES),
+        expand(OUTPUTDIR+"{samplename}/plastids/markersearch/rRNA_fasta.out", samplename = SAMPLENAMES),
+        expand(OUTPUTDIR+"{samplename}/plastids/rbcL_fasta.out", samplename = SAMPLENAMES)

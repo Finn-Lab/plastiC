@@ -2,10 +2,9 @@ rule tiara:
 	input:
 		seqs = ASSEMBLYDIR+"{samplename}/"+ASSEMBLYNAME
 	params:
-		tiaraout = directory(OUTPUTDIR+"{samplename}/tiara")
+		tiaraout = directory(OUTPUTDIR+"{samplename}/working/tiara")
 	output:
-		#tiaraout = OUTPUTDIR+"{samplename}/tiara/tiara.out",
-		plastidseqs = OUTPUTDIR+"{samplename}/tiara/plastid_scaffolds.fasta"
+		plastidseqs = OUTPUTDIR+"{samplename}/working/tiara/plastid_scaffolds.fasta"
 	conda:
 		"../envs/tiara.yml"
 	shell:
