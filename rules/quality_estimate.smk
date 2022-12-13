@@ -1,11 +1,11 @@
 # completeness estimate
 rule binprep_completeness:
 	input:
-		kegg_counts_log = OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts.log"
+		kegg_counts_log = OUTPUTDIR+"{samplename}/working/quality_estimate/kegg_counts.log"
 	params:
-		keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts")
+		keggcountdir = directory(OUTPUTDIR+"{samplename}/working/quality_estimate/kegg_counts")
 	output:
-		keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/comp_kegg_data.csv"
+		keggdataprep = OUTPUTDIR+"{samplename}/working/quality_estimate/comp_kegg_data.csv"
 	conda:
 		"../envs/plastiC.yml"
 	shell:
@@ -13,12 +13,12 @@ rule binprep_completeness:
 
 rule completeness_estimate:
     input:
-        keggdataprep = OUTPUTDIR+"{samplename}/quality_estimate/comp_kegg_data.csv"
+        keggdataprep = OUTPUTDIR+"{samplename}/working/quality_estimate/comp_kegg_data.csv"
     params:
-        keggcountdir = directory(OUTPUTDIR+"{samplename}/quality_estimate/kegg_counts"),
+        keggcountdir = directory(OUTPUTDIR+"{samplename}/working/quality_estimate/kegg_counts"),
         plastidbindir = directory(OUTPUTDIR+"{samplename}/plastids/bins")
     output:
-        completeness = OUTPUTDIR+"{samplename}/quality_estimate/completeness_estimate.csv"
+        completeness = OUTPUTDIR+"{samplename}/working/quality_estimate/completeness_estimate.csv"
     conda:
         "../envs/plastiC.yml"
     shell:
