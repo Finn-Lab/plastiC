@@ -7,7 +7,7 @@ rule plastid_source_classification:
         cattax = CATTAXDIR
     params:
         cat_outputdir = directory(OUTPUTDIR+"{samplename}/working/CAT_classification"),
-        plastidbins = directory(OUTPUTDIR+"{samplename}/working/plastids/bins")
+        plastidbins = directory(OUTPUTDIR+"{samplename}/plastids/bins")
     output:
         plastid_source_prediction = OUTPUTDIR+"{samplename}/working/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.txt"
     conda:

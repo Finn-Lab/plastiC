@@ -6,15 +6,22 @@ import os
 configfile: "config.yaml"
 
 ASSEMBLYDIR = config["assemblydir"]
-#BINDIR = config["bindir"]
 ASSEMBLYNAME = config["assemblyname"]
 OUTPUTDIR = config["outputdir"]
-READDIR = config["readdir"]
+MAPREQUIRE = config["maprequire"]
+
+if MAPREQUIRE == True:
+	READDIR = config["readdir"]
+	
+if MAPREQUIRE == False:
+	MAPBAMDIR = config["mapbamdir"]
+	MAPBAM = config["mapbamfile"]
+
 MINPLASTIDCONTENT = config["min_plastid_content"]
+
 CATDBDIR = config["catdbdir"]
 CATTAXDIR = config["cattaxdir"]
 UNIREFDMND = config["unirefdb"]
-MAPREQUIRE = config["maprequire"]
 
 def getsample_names(dir):
     filelist = os.listdir(config["assemblydir"])
@@ -28,8 +35,6 @@ def getsample_names(dir):
 
 SAMPLENAMES = getsample_names(config["assemblydir"])
 
-print(SAMPLENAMES)
-
 for sample in SAMPLENAMES:
     if not os.path.exists(OUTPUTDIR+sample+"/logs"):
         os.makedirs(OUTPUTDIR+sample+"/logs")
@@ -41,7 +46,8 @@ include: "rules/tiara.smk"
 
 if MAPREQUIRE == True:
     include: "rules/reads2assembly.smk"
-
+if MAPREQUIRE == False:
+	include: "rules/nomapreq.smk"
 include: "rules/plastidbins.smk"
 include: "rules/kegg.smk"
 include: "rules/quality_estimate.smk"

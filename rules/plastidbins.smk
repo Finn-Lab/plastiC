@@ -1,7 +1,7 @@
 # generate depth file
 rule jgi_depth:
 	input:
-		bamout = OUTPUTDIR+"{samplename}/working/mapping/reads2assembly/alignment.bam"
+		bamout = OUTPUTDIR+"{samplename}/working/reads2assembly/alignment.bam"
 	output:
 		jgidepth = OUTPUTDIR+"{samplename}/working/binning/metabat_depth.txt"
 	conda:
@@ -32,14 +32,14 @@ rule fetch_plastid_bins:
 	params:
 		bindir = directory(OUTPUTDIR+"{samplename}/working/binning/bins/"),
 		plastidbindir = directory(OUTPUTDIR+"{samplename}/plastids/"),
-		#minplastidbinsize = lambda wc: str(MINPLASTIDCONTENT)
+		minplastidbinsize = lambda wc: str(MINPLASTIDCONTENT)
 	output:
 		plastidbinstats = OUTPUTDIR+"{samplename}/plastids/plastid_bin_stats.csv"
 	conda:
 		"../envs/plastiC.yml"
 	shell:
 		"""
-		python3 scripts/plastidbinner.py -b {params.bindir} -p {input.plastid_seqs} -o {params.plastidbindir} -d {params.plastidbindir}
+		python3 scripts/plastidbinner.py -b {params.bindir} -p {input.plastid_seqs} -o {params.plastidbindir} -d {params.plastidbindir} -s {params.minplastidbinsize}
 		mkdir -p {params.plastidbindir}/bins
 		mv {params.plastidbindir}/*.fa {params.plastidbindir}/bins
 		"""
