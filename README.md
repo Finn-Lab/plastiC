@@ -26,7 +26,11 @@ Please visit https://github.com/dutilh/CAT for database installation and prepara
 # Configuration
 
 # Running
-After Snakemake the above steps have been completed, samples can now be run to identify plastid genomes. The value for `-j` should be adjusted to reflect the number of cores available. The `-k` flag may be removed if users desire the workflow to stop if an independent job fails.  
+After the above steps have been completed, samples can now be run to identify plastid genomes. The first step is to activate your `conda` environment.  
+Example:  
+`conda activate snakemake`  
+
+The value for `-j` should be adjusted to reflect the number of cores available. The `-k` flag may be removed if users desire the workflow to stop if an independent job fails.  
 Example:  
 `snakemake --use-conda -k -j 2`
 
