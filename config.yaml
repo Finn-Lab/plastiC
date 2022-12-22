@@ -1,21 +1,16 @@
 # ASSEMBLY
 ## Path to directory containing metagenomic assemblies
 assemblydir:
-    #"/nfs/research/rdf/escameron/lichen/lichen/results/assembly/spades/public/"
-    "/hps/research/finn/escameron/plastiC/testing/assembly/"
-    #"tara_scaffolds/"
+    #"assembly/spades/"
 
 ## Assembly Filename (Identical for each sample)
 assemblyname:
-  #"spades_output/scaffolds.fasta"
-  "scaffolds.fasta"
-
-
+  #"scaffolds.fasta"
 
 # OUTPUT
 ## Path to directory to contain output results
 outputdir:
-    "/hps/research/finn/escameron/plastiC/testdrive_new/"
+    #"plastiC_results/"
 
 # MAPPING 
 ## Do you require mapping? If true, please provide reads. If false, please provide alignment.bam.
@@ -24,31 +19,29 @@ maprequire:
 
 ## Path to directory containing read files (Required if maprequire = True)    
 readdir:
-    #"/nfs/research/rdf/escameron/lichen/lichen/results/reads/qc/public/"
-    "/hps/research/finn/escameron/plastiC/testing/reads/"
-    #"tara_reads/"
+    #"reads/"
 
 ## Path to directory containing mapping bam files (Required if maprequire = False)
 mapbamdir:
-    "/hps/research/finn/escameron/plastiC/testing/reads2assembly/"
+    #"reads2assembly/"
 
 mapbamfile:
-    "alignment.bam"
+    #"alignment.bam"
 
 # PLASTID BINS
 ##  Minimum % of bin to be plastid to retain as plastid bin
 min_plastid_content:
-    50
+    90
 
 
 # DATABASES
 ## Paths to CAT database & taxonomy
 catdbdir:
-    "/hps/research/finn/escameron/databases/CAT_prepare_20210107/2021-01-07_CAT_database/"
+    #"databases/CAT_prepare_20210107/2021-01-07_CAT_database/"
 
 cattaxdir:
-    "/hps/research/finn/escameron/databases/CAT_prepare_20210107/2021-01-07_taxonomy/"
+    #"databases/CAT_prepare_20210107/2021-01-07_taxonomy/"
 
 ## Path to Uniref Diamond DB
 unirefdb:
-  "/hps/research/finn/escameron/checkm2/CheckM2_database/uniref100.KO.1.dmnd"
+  #"databases/uniref100.KO.1.dmnd"
