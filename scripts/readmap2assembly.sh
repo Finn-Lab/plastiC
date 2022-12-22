@@ -3,7 +3,7 @@ usage()
 cat << EOF
 usage: $0 options
 
-Map reads to metagenomic assembly. 
+Map reads to metagenomic assembly.
 OPTIONS:
       -1 Forward reads [REQUIRED]
       -2 reverse reads [REQUIRED]
@@ -49,11 +49,11 @@ do
 done
 
 echo -e "Generating bwa index..."
-bwa index ${assembly}
+bwa index "${assembly}"
 
 echo -e "Mapping reads to assembly..."
-bwa mem -t 16 ${assembly} ${forwardreads} ${reversereads} | samtools sort -o ${bamoutput}
+bwa mem -t 16 "${assembly}" "${forwardreads}" "${reversereads}" | samtools sort -o "${bamoutput}"
 
-samtools index ${bamoutput}
+samtools index "${bamoutput}"
 
 echo -e "Mapping complete"

@@ -45,9 +45,9 @@ do
 done
 
 echo -e "Calculating metabat depth..."
-jgi_summarize_bam_contig_depths --outputDepth ${binningdir}/metabat_depth.txt ${mappedreads}
+jgi_summarize_bam_contig_depths --outputDepth "${binningdir}"/metabat_depth.txt "${mappedreads}"
 
 echo -e "Performing binning using metaBAT2..."
-metabat2 -i ${assembly} -a binning/metabat_depth.txt -o ${binningdir}/bin -s 50000 --unbinned
+metabat2 -i "${assembly}" -a binning/metabat_depth.txt -o "${binningdir}"/bin -s 50000 --unbinned
 
 echo -e "Binning complete."

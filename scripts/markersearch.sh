@@ -48,25 +48,25 @@ do
 
 done
 
-mkdir -p ${outdir}/rrna
-rrnadir=${outdir}/rrna
+mkdir -p "${outdir}"/rrna
+rrnadir="${outdir}"/rrna
 
-mkdir -p ${outdir}/rbcL/fasta 
+mkdir -p "${outdir}"/rbcL/fasta
 
-mkdir -p ${outdir}/rbcL/hmmscan
-hmmdir=${outdir}/rbcL/hmmscan
+mkdir -p "${outdir}"/rbcL/hmmscan
+hmmdir="${outdir}"/rbcL/hmmscan
 
 echo -e "Identifying rRNA genes..."
-echo -e ${plastidnuc}
+echo -e "${plastidnuc}"
 
-for NUCL in ${plastidnuc}/*.fa
+for NUCL in "${plastidnuc}"/*.fa
 
 do
-  
-  sample=`basename ${NUCL}`
-  sample=${sample%.fasta}
 
-  barrnap --outseq ${rrnadir}/${sample}_rrna.fasta ${NUCL}
+  sample="`basename "${NUCL}"`"
+  sample="${sample%.fasta}"
+
+  barrnap --outseq "${rrnadir}"/"${sample}"_rrna.fasta "${NUCL}"
 
 done
 
@@ -74,16 +74,14 @@ echo -e "rRNA gene identification finished."
 
 echo -e "Searching for rbcL..."
 
-ls ${plastidprot}
-
-for PROT in ${plastidprot}/*.fa
+for PROT in "${plastidprot}"/*.fa
 
 do
 
-  prot=`basename ${PROT}`
-  prot=${prot%.fa}
+  prot=`basename "${PROT}"`
+  prot="${prot%.fa}"
 
-  hmmscan -o ${hmmdir}/${prot}_hmm.out --domtblout ${hmmdir}/${prot}_hmm.domtbl ${hmmdb} ${PROT}
+  hmmscan -o "${hmmdir}"/"${prot}"_hmm.out --domtblout "${hmmdir}"/"${prot}"_hmm.domtbl "${hmmdb}" "${PROT}"
 
 done
 echo -e "Search for rbcL finished."

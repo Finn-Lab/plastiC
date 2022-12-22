@@ -38,19 +38,19 @@ do
 
 done
 
-mkdir -p ${outdir}/proteins
-mkdir -p ${outdir}/nt_genes
-mkdir -p ${outdir}/prodigalout
+mkdir -p "${outdir}"/proteins
+mkdir -p "${outdir}"/nt_genes
+mkdir -p "${outdir}"/prodigalout
 
-for BIN in ${plastidbindir}/*
+for BIN in "${plastidbindir}"/*
 
 do
-  bin=`basename $BIN`
-  bin=${bin%.fa}
+  bin="`basename "$BIN"`"
+  bin="${bin%.fa}"
 
-  echo -e "Generating gene predictions for ${bin}..."
+  echo -e "Generating gene predictions for ""${bin}""..."
 
-  prodigal -a ${outdir}/proteins/${bin}.fa -d ${outdir}/nt_genes/${bin}.fa -i ${BIN} -o ${outdir}/prodigalout/${bin}.out
+  prodigal -a "${outdir}"/proteins/"${bin}".fa -d "${outdir}"/nt_genes/"${bin}".fa -i "${BIN}" -o "${outdir}"/prodigalout/"${bin}".out
 
 done
 
