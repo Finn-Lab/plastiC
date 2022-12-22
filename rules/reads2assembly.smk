@@ -1,11 +1,11 @@
 # generate bam file (reads 2 assembly)
 rule reads2assembly:
     input:
-        forwardreads = READDIR+"{samplename}/{samplename}_1.fastq.gz",
-        reversereads = READDIR+"{samplename}/{samplename}_2.fastq.gz",
-        seqs = ASSEMBLYDIR+"{samplename}/"+ASSEMBLYNAME
+        forwardreads=READDIR + "{samplename}/{samplename}_1.fastq.gz",
+        reversereads=READDIR + "{samplename}/{samplename}_2.fastq.gz",
+        seqs=ASSEMBLYDIR + "{samplename}/" + ASSEMBLYNAME,
     output:
-        bamout = OUTPUTDIR+"{samplename}/working/reads2assembly/alignment.bam"
+        bamout=OUTPUTDIR + "{samplename}/working/reads2assembly/alignment.bam",
     conda:
         "../envs/plastiC.yml"
     shell:
