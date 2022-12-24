@@ -21,7 +21,12 @@ Please download the following and provide links to the paths to these databases 
 **CAT Databases**  
 Please visit https://github.com/dutilh/CAT for database installation and preparation instructions provided. 
 
-**Uniprot**
+**Uniref**  
+For completeness estimation, gradient boosting regression models were trained on a *diamond* database created from the Uniref100 (released November 26, 2018) database with KO annotations as used in [*CheckM2*](https://www.biorxiv.org/content/10.1101/2022.07.11.499243v1).  
+
+Currently, the workflow can be run using the *diamond* database created by [*CheckM2*](https://github.com/chklovski/CheckM2) developers available to download [here](https://zenodo.org/record/5571251#.Y6bB2i-l1-U).  
+
+An updated database for completeness estimates will be hosted and released in the future. 
 
 # Configuration
 
