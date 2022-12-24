@@ -2,7 +2,7 @@
 A [Snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) workflow for recovery and characterization of plastid genomes from metagenomic datasets. 
 
 If you use this tool, please cite the [preprint](https://www.biorxiv.org/content/10.1101/2022.12.23.521586v1):  
-Cameron, E.S., Blaxter, M.L., Finn, R.D. (2022). plastiC: A pipeline for recovery and characterization of plastid genomes from metagenomic datasets. *bioRxiv*. doi: (https://doi.org/10.1101/2022.12.23.521586)
+Cameron, E.S., Blaxter, M.L., Finn, R.D. (2022). plastiC: A pipeline for recovery and characterization of plastid genomes from metagenomic datasets. *bioRxiv*. doi: https://doi.org/10.1101/2022.12.23.521586
 
 # Installation & Setup
 1. Install [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html).  
