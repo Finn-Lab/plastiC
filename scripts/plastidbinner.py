@@ -111,11 +111,11 @@ if __name__ == "__main__":
     ap.add_argument(
         "-s",
         "--binsize",
-        required=False,
+        required=True,
         type=int,
         help="Threshold of plastid bin content",
-        default=90,
     )
+    
     args = ap.parse_args()
 
     plastidseqlist = plastid_seq_id(args.plastids)

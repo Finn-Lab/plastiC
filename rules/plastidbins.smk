@@ -41,6 +41,12 @@ rule fetch_plastid_bins:
     shell:
         """
         python3 scripts/plastidbinner.py -b {params.bindir} -p {input.plastid_seqs} -o {params.plastidbindir} -d {params.plastidbindir} -s {params.minplastidbinsize}
-        mkdir -p {params.plastidbindir}/bins
-        mv {params.plastidbindir}/*.fa {params.plastidbindir}/bins
+
+		if [ "$(ls -A {params.plastidbindir}/*.fa)" ]
+		then
+        	mkdir -p {params.plastidbindir}/bins
+        	mv {params.plastidbindir}/*.fa {params.plastidbindir}/bins
+        else
+        	echo 'No bins'
+        fi
         """
