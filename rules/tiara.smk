@@ -5,7 +5,7 @@ rule tiara:
         tiaraout=directory(OUTPUTDIR + "{samplename}/working/tiara"),
     output:
         plastidseqs=OUTPUTDIR + "{samplename}/working/tiara/plastid_scaffolds.fasta",
-    conda:
-        "../envs/tiara.yml"
+    singularity:
+        "docker://escamero/plastic:tiara"
     shell:
         "bash scripts/tiara_classifier.sh -i {input.seqs} -o {params.tiaraout}"

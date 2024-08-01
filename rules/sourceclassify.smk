@@ -12,7 +12,7 @@ rule plastid_source_classification:
     output:
         plastid_source_prediction=OUTPUTDIR
         + "{samplename}/working/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.txt",
-    conda:
-        "../envs/plastiC.yml"
+    singularity:
+        "docker://escamero/plastic:plastic_container"
     shell:
         "bash scripts/source_classifier.sh -i {params.plastidbins} -d {input.catdb} -t {input.cattax} -o {params.cat_outputdir}"

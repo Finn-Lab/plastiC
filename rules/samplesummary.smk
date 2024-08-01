@@ -9,7 +9,7 @@ rule summary_per_sample:
         plastidbindir=directory(OUTPUTDIR + "{samplename}/plastids/bins"),
     output:
         summary=OUTPUTDIR + "{samplename}/plastids/plastidinfo.csv",
-    conda:
-        "../envs/plastiC.yml"
+    singularity:
+        "docker://escamero/plastic:plastic_container"
     shell:
         "python3 scripts/summarysample.py  -comp {input.completeness} -t {input.taxonomy} -b {params.plastidbindir} -o {output.summary}"

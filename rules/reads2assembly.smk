@@ -6,7 +6,7 @@ rule reads2assembly:
         seqs=ASSEMBLYDIR + "{samplename}/" + ASSEMBLYNAME,
     output:
         bamout=OUTPUTDIR + "{samplename}/working/reads2assembly/alignment.bam",
-    conda:
-        "../envs/plastiC.yml"
+    singularity:
+        "docker://escamero/plastic:plastic_container"
     shell:
         "bash scripts/readmap2assembly.sh -1 {input.forwardreads} -2 {input.reversereads} -a {input.seqs} -o {output.bamout}"

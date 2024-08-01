@@ -11,8 +11,8 @@ rule diamond_blastp:
         prodigaldir=directory(OUTPUTDIR + "{samplename}/working/prodigal"),
     output:
         kegg_log=OUTPUTDIR + "{samplename}/working/quality_estimate/kegg_out.log",
-    conda:
-        "../envs/plastiC.yml"
+    singularity:
+        "docker://escamero/plastic:plastic_container"
     shell:
         "bash scripts/kegg_output.sh -i {params.plastidbindir} -p {params.prodigaldir} -d {input.unirefdb} -o {params.keggoutdir} > {output.kegg_log}"
 

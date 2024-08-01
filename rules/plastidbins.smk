@@ -4,8 +4,8 @@ rule jgi_depth:
         bamout=OUTPUTDIR + "{samplename}/working/reads2assembly/alignment.bam",
     output:
         jgidepth=OUTPUTDIR + "{samplename}/working/binning/metabat_depth.txt",
-    conda:
-        "../envs/plastiC.yml"
+    singularity:
+        "docker://escamero/plastic:plastic_container"
     shell:
         "jgi_summarize_bam_contig_depths --outputDepth {output.jgidepth} {input.bamout}"
 
@@ -19,8 +19,8 @@ rule metabat_binning:
         bin_prefix=OUTPUTDIR + "{samplename}/working/binning/bins/bin",
     output:
         metabat2_log=OUTPUTDIR + "{samplename}/working/binning/metabat2.log",
-    conda:
-        "../envs/plastiC.yml"
+    singularity:
+        "docker://escamero/plastic:plastic_container"
     shell:
         "metabat2 -i {input.seqs} -a {input.jgidepth} -o {params.bin_prefix} -s 50000 --unbinned > {output.metabat2_log}"
 
@@ -36,8 +36,8 @@ rule fetch_plastid_bins:
         minplastidbinsize=lambda wc: str(MINPLASTIDCONTENT),
     output:
         plastidbinstats=OUTPUTDIR + "{samplename}/plastids/plastid_bin_stats.csv",
-    conda:
-        "../envs/plastiC.yml"
+    singularity:
+        "docker://escamero/plastic:plastic_container"
     shell:
         """
         python3 scripts/plastidbinner.py -b {params.bindir} -p {input.plastid_seqs} -o {params.plastidbindir} -d {params.plastidbindir} -s {params.minplastidbinsize}
