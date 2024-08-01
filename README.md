@@ -71,7 +71,7 @@ To have access to the workflow, clone the *plastiC* repository.
 Example:  
 `git clone --recursive https://github.com/escamero/plastiC.git`
   
-4. Download databases (described below).
+3. Download databases (described below).
 
 The *plastiC* workflow uses dockerhub to fetch all required tools, so ensure [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/installation.html) is also installed.
 
