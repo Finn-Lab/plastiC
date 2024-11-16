@@ -6,6 +6,6 @@ rule tiara:
     output:
         plastidseqs=OUTPUTDIR + "{samplename}/working/tiara/plastid_scaffolds.fasta",
     singularity:
-        "docker://escamero/plastic:tiara"
+        "docker://quay.io/biocontainers/tiara"
     shell:
         "bash scripts/tiara_classifier.sh -i {input.seqs} -o {params.tiaraout}"

@@ -7,6 +7,6 @@ rule reads2assembly:
     output:
         bamout=OUTPUTDIR + "{samplename}/working/reads2assembly/alignment.bam",
     singularity:
-        "docker://escamero/plastic:plastic_container"
+        "docker://quay.io/microbiome-informatics/plastic_env"
     shell:
         "bash scripts/readmap2assembly.sh -1 {input.forwardreads} -2 {input.reversereads} -a {input.seqs} -o {output.bamout}"
