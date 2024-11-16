@@ -5,7 +5,7 @@ rule jgi_depth:
     output:
         jgidepth=OUTPUTDIR + "{samplename}/working/binning/metabat_depth.txt",
     singularity:
-        "docker://quay.io/microbiome-informatics/plastic_env"
+        "quay.io://microbiome-informatics/plastic_env"
     shell:
         "jgi_summarize_bam_contig_depths --outputDepth {output.jgidepth} {input.bamout}"
 
@@ -20,7 +20,7 @@ rule metabat_binning:
     output:
         metabat2_log=OUTPUTDIR + "{samplename}/working/binning/metabat2.log",
     singularity:
-        "docker://quay.io/microbiome-informatics/plastic_env"
+        "quay.io://microbiome-informatics/plastic_env"
     shell:
         "metabat2 -i {input.seqs} -a {input.jgidepth} -o {params.bin_prefix} -s 50000 --unbinned > {output.metabat2_log}"
 
@@ -37,7 +37,7 @@ rule fetch_plastid_bins:
     output:
         plastidbinstats=OUTPUTDIR + "{samplename}/plastids/plastid_bin_stats.csv",
     singularity:
-        "docker://quay.io/microbiome-informatics/plastic_env"
+        "quay.io://microbiome-informatics/plastic_env"
     shell:
         """
         python3 scripts/plastidbinner.py -b {params.bindir} -p {input.plastid_seqs} -o {params.plastidbindir} -d {params.plastidbindir} -s {params.minplastidbinsize}
