@@ -11,7 +11,7 @@ rule binprep_completeness:
         keggdataprep=OUTPUTDIR
         + "{samplename}/working/quality_estimate/comp_kegg_data.csv",
     singularity:
-        "quay.io://microbiome-informatics/plastic_env"
+        "docker://quay.io/microbiome-informatics/plastic_env:v0.1.2"
     shell:
         "python3 scripts/kegg_prep_bin.py -kc {params.keggcountdir} -o {output.keggdataprep} -l resources/quality_estimates/kegg_order.txt"
 
@@ -29,6 +29,6 @@ rule completeness_estimate:
         completeness=OUTPUTDIR
         + "{samplename}/working/quality_estimate/completeness_estimate.csv",
     singularity:
-        "quay.io://microbiome-informatics/plastic_env"
+        "docker://quay.io/microbiome-informatics/plastic_env:v0.1.2"
     shell:
         "python3 scripts/quality_estimate_base.py -b {params.plastidbindir} -k {input.keggdataprep} -kc {params.keggcountdir} -o {output.completeness} -m resources/quality_estimates/completeness.model -t completeness"

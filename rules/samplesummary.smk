@@ -10,6 +10,6 @@ rule summary_per_sample:
     output:
         summary=OUTPUTDIR + "{samplename}/plastids/plastidinfo.csv",
     singularity:
-        "quay.io://microbiome-informatics/plastic_env"
+        "docker://quay.io/microbiome-informatics/plastic_env:v0.1.2"
     shell:
         "python3 scripts/summarysample.py  -comp {input.completeness} -t {input.taxonomy} -b {params.plastidbindir} -o {output.summary}"

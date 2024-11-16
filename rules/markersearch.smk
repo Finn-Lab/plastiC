@@ -9,7 +9,7 @@ rule marker_search:
     output:
         markersearchlog=OUTPUTDIR + "{samplename}/plastids/markersearch/search.out",
     singularity:
-        "quay.io://microbiome-informatics/plastic_env"
+        "docker://quay.io/microbiome-informatics/plastic_env:v0.1.2"
     shell:
         "bash scripts/markersearch.sh -n {params.nucldir} -p {params.protdir} -m resources/markergene_scan/rbcL/ref_rbcL_hmm -o {params.markerdir} > {output.markersearchlog}"
 
@@ -26,7 +26,7 @@ rule marker_fasta:
     output:
         marker_fasta=OUTPUTDIR + "{samplename}/plastids/markersearch/rbcL_fasta.out",
     singularity:
-        "quay.io://microbiome-informatics/plastic_env"
+        "docker://quay.io/microbiome-informatics/plastic_env:v0.1.2"
     shell:
         "python3 scripts/marker_query_select_multifile.py -i {params.hmmscandir} -b {params.bindir} -o {params.fastadir} > {output.marker_fasta}"
 
@@ -39,6 +39,6 @@ rule rrna_fasta:
     output:
         rrna_fasta=OUTPUTDIR + "{samplename}/plastids/markersearch/rRNA_fasta.out",
     singularity:
-        "quay.io://microbiome-informatics/plastic_env"
+        "docker://quay.io/microbiome-informatics/plastic_env:v0.1.2"
     shell:
         "python3 scripts/create_rrna_fasta.py -i {params.rrnadir} > {output.rrna_fasta}"

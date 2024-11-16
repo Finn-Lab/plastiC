@@ -13,6 +13,6 @@ rule plastid_source_classification:
         plastid_source_prediction=OUTPUTDIR
         + "{samplename}/working/CAT_classification/out.BAT.plastid_source_taxonomy_predictions.txt",
     singularity:
-        "quay.io://microbiome-informatics/plastic_env"
+        "docker://quay.io/microbiome-informatics/plastic_env:v0.1.2"
     shell:
         "bash scripts/source_classifier.sh -i {params.plastidbins} -d {input.catdb} -t {input.cattax} -o {params.cat_outputdir}"
