@@ -103,6 +103,6 @@ Example:
 `snakemake --use-singularity -k -j 2`
 
 *plastiC* can also be executed on a cluster. The specifications (e.g., memory, cores) for cluster execution can be adjusted in the `cluster.yml` file.  
-Note: Exact submission command may need to bea djusted depending on your system.  
-Example:  
+Note: Exact submission command may need to be adjusted depending on your system.  
+Example (LSF submission):  
 `snakemake --use-singularity -k -j 2 --cluster-config cluster.yml --cluster 'bsub -n {cluster.nCPU} -M {cluster.mem} -o {cluster.output}'`
